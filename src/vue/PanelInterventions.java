@@ -25,7 +25,7 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 	private JTextArea txtDescription = new JTextArea(); 
 	private JTextField txtDateInter = new JTextField(); 
 	private JTextField txtPrix = new JTextField(); 
-	private JComboBox<String> txtIdTechnicien = new JComboBox<String>(); 
+	private JComboBox<String> txtIdAdmin = new JComboBox<String>(); 
 	private JComboBox<String> txtIdMateriel = new JComboBox<String>();
 	private JButton btAnnuler = new JButton("Annuler"); 
 	private JButton btEnregistrer= new JButton("Enregistrer");
@@ -44,8 +44,8 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 		this.panelForm.add(this.txtDateInter);
 		this.panelForm.add(new JLabel("Prix Inter : ")); 
 		this.panelForm.add(this.txtPrix);
-		this.panelForm.add(new JLabel("Le Technicien ")); 
-		this.panelForm.add(this.txtIdTechnicien);
+		this.panelForm.add(new JLabel("Le Admin ")); 
+		this.panelForm.add(this.txtIdAdmin);
 		this.panelForm.add(new JLabel("Le Matériel ")); 
 		this.panelForm.add(this.txtIdMateriel);
 		this.panelForm.add(this.btAnnuler); 
@@ -53,7 +53,7 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 		this.add(this.panelForm); 
 		this.panelForm.setVisible(true);
 		
-		//remplir lesCBX Materiels et techniciens 
+		//remplir lesCBX Materiels et Admins 
 		this.remplirCBX();
 		
 		//rendre les deux boutons ecoutables 
@@ -67,10 +67,10 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 			this.txtIdMateriel.addItem(unMateriel.getIdmateriel()+"-"+unMateriel.getDesignation());
 		}
 		
-		ArrayList<Admin> lesTechniciens = Controleur.selectAllTechniciens(); 
-		for (Admin unTechnicien : lesTechniciens) {
-			this.txtIdTechnicien.addItem(unTechnicien.getIdtechnicien()+"-"
-					+ unTechnicien.getNom());
+		ArrayList<Admin> lesAdmins = Controleur.selectAllAdmins(); 
+		for (Admin unAdmin : lesAdmins) {
+			this.txtIdAdmin.addItem(unAdmin.getIdAdmin()+"-"
+					+ unAdmin.getNom());
 		}
 	}
 	@Override
@@ -90,9 +90,9 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 				JOptionPane.showMessageDialog(this, "Erreur prix");
 			}
 			//recupération des ID :
-			String chaine = this.txtIdTechnicien.getSelectedItem().toString(); 
+			String chaine = this.txtIdAdmin.getSelectedItem().toString(); 
 			String tab [] = chaine.split("-"); 
-			int idTechnicien = Integer.parseInt(tab[0]);
+			int idAdmin = Integer.parseInt(tab[0]);
 			
 			chaine = this.txtIdMateriel.getSelectedItem().toString(); 
 			tab = chaine.split("-"); 
@@ -100,7 +100,7 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 			
 			//instancier une intervention
 			Intervention uneIntervention = new Intervention(description, dateinter, 
-												prix, idTechnicien, idMateriel);
+												prix, idAdmin, idMateriel);
 			//on l'insère dans la BDD 
 			Controleur.insertIntervention (uneIntervention); 
 			JOptionPane.showMessageDialog(this, "Insertion réussie de l'intervention");

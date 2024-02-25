@@ -31,19 +31,19 @@ public class PanelProfil extends PanelPrincipal implements ActionListener
 	private JButton btAnnuler = new JButton("Annuler"); 
 	private JButton btEnregistrer = new JButton("Enregistrer"); 
 	
-	private Admin unTechnicien ; 
+	private Admin unAdmin ; 
 	
-	public PanelProfil( Admin unTechnicien ) {
+	public PanelProfil( Admin unAdmin ) {
 		super(new Color ( 181, 135, 79  ));
 		
-		this.unTechnicien = unTechnicien; 
+		this.unAdmin = unAdmin; 
 		
 		this.txtInfos.setBounds(40, 50, 260, 200);
 		String infos ="\n --Informations de votre profil --" 
-					 + "\n\n Nom : "+unTechnicien.getNom()
-					 + "\n\n Prénom : "+unTechnicien.getPrenom()
-					 + "\n\n Qualification : "+unTechnicien.getQualification()
-					 + "\n\n Email : "+unTechnicien.getEmail();
+					 + "\n\n Nom : "+unAdmin.getNom()
+					 + "\n\n Prénom : "+unAdmin.getPrenom()
+					 + "\n\n Qualification : "+unAdmin.getQualification()
+					 + "\n\n Email : "+unAdmin.getEmail();
 		
 		this.txtInfos.setText(infos);
 		this.txtInfos.setBackground(new Color ( 181, 135, 79  ));
@@ -78,10 +78,10 @@ public class PanelProfil extends PanelPrincipal implements ActionListener
 		this.btAnnuler.addActionListener(this);
 		
 		//remplir les données 
-		this.txtNom.setText(unTechnicien.getNom());
-		this.txtPrenom.setText(unTechnicien.getPrenom());
-		this.txtQualif.setText(unTechnicien.getQualification());
-		this.txtEmail.setText(unTechnicien.getEmail());
+		this.txtNom.setText(unAdmin.getNom());
+		this.txtPrenom.setText(unAdmin.getPrenom());
+		this.txtQualif.setText(unAdmin.getQualification());
+		this.txtEmail.setText(unAdmin.getEmail());
 		
 	}
 
@@ -109,21 +109,21 @@ public class PanelProfil extends PanelPrincipal implements ActionListener
 					
 			if (ok) {
 				//on va enregistrer les modifs dans la base. 
-				this.unTechnicien.setNom(nom); 
-				this.unTechnicien.setPrenom(prenom); 
-				this.unTechnicien.setQualification(qualif);
-				this.unTechnicien.setEmail(email);
-				this.unTechnicien.setMdp(mdp);
-				Controleur.updateTechnicien (unTechnicien);
+				this.unAdmin.setNom(nom); 
+				this.unAdmin.setPrenom(prenom); 
+				this.unAdmin.setQualification(qualif);
+				this.unAdmin.setEmail(email);
+				this.unAdmin.setMdp(mdp);
+				Controleur.updateAdmin (unAdmin);
 				
 				JOptionPane.showMessageDialog(this, "Modification effectuée");
 				this.panelForm.setVisible(false);
-				//actualiser les infos technicien dans la txtInfos 
+				//actualiser les infos Admin dans la txtInfos 
 				String infos ="\n --Informations de votre profil --" 
-						 + "\n\n Nom : "+unTechnicien.getNom()
-						 + "\n\n Prénom : "+unTechnicien.getPrenom()
-						 + "\n\n Qualification : "+unTechnicien.getQualification()
-						 + "\n\n Email : "+unTechnicien.getEmail();
+						 + "\n\n Nom : "+unAdmin.getNom()
+						 + "\n\n Prénom : "+unAdmin.getPrenom()
+						 + "\n\n Qualification : "+unAdmin.getQualification()
+						 + "\n\n Email : "+unAdmin.getEmail();
 			
 				this.txtInfos.setText(infos);
 			}

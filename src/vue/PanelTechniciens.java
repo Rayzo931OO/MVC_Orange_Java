@@ -2,10 +2,10 @@ package vue;
 
 import java.awt.Color;
 
-public class PanelTechniciens extends PanelPrincipal
+public class PanelAdmins extends PanelPrincipal
 {
 
-	public PanelTechniciens( ) {
+	public PanelAdmins( ) {
 		super(Color.gray);
 	}
 
