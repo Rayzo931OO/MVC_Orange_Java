@@ -26,7 +26,7 @@ public class Admin {
 		return idAdmin;
 	}
 
-	public void setIdtechnicien(int idAdmin) {
+	public void setIdadmin(int idAdmin) {
 		this.idAdmin = idAdmin;
 	}
 

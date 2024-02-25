@@ -1,10 +1,10 @@
 package controleur;
 
-public class ViewTech {
+public class ViewAdmin {
 	private String nom, prenom; 
 	private int nbInters ;
 	
-	public ViewTech(String nom, String prenom, int nbInters) {
+	public ViewAdmin(String nom, String prenom, int nbInters) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.nbInters = nbInters;

@@ -4,26 +4,26 @@ public class Intervention {
 	private int idinter; 
 	private String description, dateinter;
 	private float prix;
-	private int idtechnicien, idmateriel;
+	private int idadmin, idmateriel;
 	
-	public Intervention(int idinter, String description, String dateinter, float prix, int idtechnicien,
+	public Intervention(int idinter, String description, String dateinter, float prix, int idadmin,
 			int idmateriel) {
 		super();
 		this.idinter = idinter;
 		this.description = description;
 		this.dateinter = dateinter;
 		this.prix = prix;
-		this.idtechnicien = idtechnicien;
+		this.idadmin = idadmin;
 		this.idmateriel = idmateriel;
 	} 
-	public Intervention( String description, String dateinter, float prix, int idtechnicien,
+	public Intervention( String description, String dateinter, float prix, int idadmin,
 			int idmateriel) {
 		super();
 		this.idinter = 0;
 		this.description = description;
 		this.dateinter = dateinter;
 		this.prix = prix;
-		this.idtechnicien = idtechnicien;
+		this.idadmin = idadmin;
 		this.idmateriel = idmateriel;
 	}
 	public int getIdinter() {
@@ -50,11 +50,11 @@ public class Intervention {
 	public void setPrix(float prix) {
 		this.prix = prix;
 	}
-	public int getIdtechnicien() {
-		return idtechnicien;
+	public int getIdadmin() {
+		return idadmin;
 	}
-	public void setIdtechnicien(int idtechnicien) {
-		this.idtechnicien = idtechnicien;
+	public void setIdadmin(int idadmin) {
+		this.idadmin = idadmin;
 	}
 	public int getIdmateriel() {
 		return idmateriel;

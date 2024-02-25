@@ -6,19 +6,19 @@ import modele.Modele;
 
 public class Controleur {
 
-	public static Admin selectWhereTechnicien (String email, String mdp) {
+	public static Admin selectWhereAdmin (String email, String mdp) {
 		//Controler l'email 
 		//controler la complexité du mdp 
-		return Modele.selectWhereTechnicien(email, mdp);
+		return Modele.selectWhereAdmin(email, mdp);
 	}
 	
-	public static ArrayList<Admin> selectAllTechniciens (){
-		return Modele.selectAllTechniciens(); 
+	public static ArrayList<Admin> selectAllAdmins (){
+		return Modele.selectAllAdmins(); 
 	}
 	
-	public static void updateTechnicien (Admin unTechnicien)
+	public static void updateAdmin (Admin unAdmin)
 	{
-		Modele.updateTechnicien (unTechnicien); 
+		Modele.updateAdmin (unAdmin); 
 	}
 	public static void insertMateriel (Materiel unMateriel)
 	{
@@ -51,9 +51,9 @@ public class Controleur {
 		Modele.insertIntervention (uneIntervention);
 	}
 
-	public static ArrayList<ViewTech> selectAllViewTechs() {
+	public static ArrayList<ViewTech> selectAllViewAdmin() {
 		 
-		return Modele.selectAllViewTechs(); 
+		return Modele.selectAllViewAdmin(); 
 	}
 }
 
