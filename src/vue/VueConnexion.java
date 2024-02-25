@@ -25,8 +25,8 @@ public class VueConnexion extends JFrame implements ActionListener, KeyListener
 	private JButton btConnexion = new JButton("Se Connecter"); 
 	private JButton btAnnuler = new JButton("Annuler"); 
 	
-	private JTextField txtEmail = new JTextField("a@gmail.com"); 
-	private JPasswordField txtMdp = new JPasswordField("123"); 
+	private JTextField txtEmail = new JTextField("admin@email.com"); 
+	private JPasswordField txtMdp = new JPasswordField("password123"); 
 
 	public VueConnexion () {
 		this.setTitle("Orange Event 2024");
@@ -84,14 +84,14 @@ public class VueConnexion extends JFrame implements ActionListener, KeyListener
 		String mdp = new String (this.txtMdp.getPassword()); 
 		
 		//on vérifie dans la base de données à travers le modèle
-		Admin unTechnicien = Controleur.selectWhereTechnicien(email, mdp); 
-		if (unTechnicien == null) {
+		Admin unAdmin = Controleur.selectWhereAdmin(email, mdp); 
+		if (unAdmin == null) {
 			JOptionPane.showMessageDialog(this, "Veuillez vérifier vos identifiants!");
 			this.txtEmail.setText("");
 			this.txtMdp.setText("");
 		}else {
 			//on lance la vue générale et on réduit la vue connexion 
-			OrangeEvent.rendreVisibleGenerale(true, unTechnicien);
+			OrangeEvent.rendreVisibleGenerale(true, unAdmin);
 			OrangeEvent.rendreVisibleConnexion(false);
 		}	
 	}

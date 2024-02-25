@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import controleur.Admin;
-import controleur.ViewTech;
+import controleur.ViewAdmin;
 import controleur.Intervention;
 import controleur.Materiel;
 
@@ -14,11 +14,11 @@ public class Modele {
 	private static Bdd uneBdd = new Bdd ("localhost:3306","mvc_orange","root","root");
 	
 	/************************* Gestion des Admins ******************/
-	public static Admin selectWhereAdmin (String email, String mdp)
+	public static Admin selectWhereAdmin (String email, String mot_de_passe)
 	{
 		Admin unAdmin = null; 
-		String requete = "select * from Admin where email='"+email
-				+ "' and mdp ='"+mdp+" and role = admin'; ";
+		String requete = "select * from user where email='"+email
+				+ "' and mot_de_passe ='"+mot_de_passe+"' and role = 'admin'; ";
 		try {
 			uneBdd.seConnecter();
 			//création d'un curseur pour exécuter la requete 
@@ -33,7 +33,7 @@ public class Modele {
 						unRes.getString("prenom"), 
 						unRes.getString("qualification"), 
 						unRes.getString("email"), 
-						unRes.getString("mdp")
+						unRes.getString("mot_de_passe")
 						);
 			}
 			unStat.close();
@@ -49,7 +49,7 @@ public class Modele {
 	public static ArrayList<Admin> selectAllAdmins ()
 	{
 		ArrayList<Admin> lesAdmins = new ArrayList<Admin>(); 
-		String requete = "select * from Admin ; "; 
+		String requete = "select * from user where role = 'admin'; "; 
 		try {
 			uneBdd.seConnecter();
 			//création d'un curseur pour exécuter la requete 
@@ -59,12 +59,12 @@ public class Modele {
 			//s'il y a un resultat, on récupere les champs 
 			while (desRes.next()) {
 				Admin unAdmin = new Admin (
-						desRes.getInt("idAdmin"),   
+						desRes.getInt("id_utilisateur"),   
 						desRes.getString("nom"), 
 						desRes.getString("prenom"), 
 						desRes.getString("qualification"), 
 						desRes.getString("email"), 
-						desRes.getString("mdp")
+						desRes.getString("mot_de_passe")
 						);
 				lesAdmins.add(unAdmin);
 			}
@@ -77,9 +77,9 @@ public class Modele {
 		return lesAdmins; 
 	}
 	
-	public static ArrayList<ViewTech> selectAllViewTechs ()
+	public static ArrayList<ViewAdmin> selectAllViewAdmins ()
 	{
-		ArrayList<ViewTech> lesViewTechs = new ArrayList<ViewTech>(); 
+		ArrayList<ViewAdmin> lesViewAdmins = new ArrayList<ViewAdmin>(); 
 		String requete = "select * from  nbIntersAdmins ; "; 
 		try {
 			uneBdd.seConnecter();
@@ -89,12 +89,12 @@ public class Modele {
 			ResultSet desRes = unStat.executeQuery(requete); 
 			//s'il y a un resultat, on récupere les champs 
 			while (desRes.next()) {
-				ViewTech unViewTech = new ViewTech (
+				ViewAdmin unViewAdmin = new ViewAdmin (
 						desRes.getString("nom"), 
 						desRes.getString("prenom"), 
 						desRes.getInt("nbInterventions")
 						);
-				lesViewTechs.add(unViewTech);
+				lesViewAdmins.add(unViewAdmin);
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
@@ -102,15 +102,15 @@ public class Modele {
 		catch (SQLException exp) {
 			System.out.println("Erreur de requete : " +requete);
 		}
-		return lesViewTechs; 
+		return lesViewAdmins; 
 	}
 
 	public static void updateAdmin(Admin unAdmin) {
-		 String requete = "update Admin set nom='"+unAdmin.getNom()
+		 String requete = "update user set nom='"+unAdmin.getNom()
 		 	+"', prenom = '"+unAdmin.getPrenom()
 		 	+"', email = '"+unAdmin.getEmail()
-		 	+"', mdp = '"+unAdmin.getMdp()
-		 	+"' where  idAdmin = "+unAdmin.getIdAdmin()+";";
+		 	+"', mot_de_passe = '"+unAdmin.getmot_de_passe()
+		 	+"' where  id_utilisateur = "+unAdmin.getIdAdmin()+";";
 		 try {
 			 uneBdd.seConnecter();
 			 Statement unStat = uneBdd.getMaConnexion().createStatement();

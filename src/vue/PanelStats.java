@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import controleur.Controleur;
 import controleur.Materiel;
 import controleur.Tableau;
-import controleur.ViewTech;
+import controleur.ViewAdmin;
 
 public class PanelStats extends PanelPrincipal{
 
@@ -30,13 +30,13 @@ public class PanelStats extends PanelPrincipal{
 		 
 	}
 	public Object [][] obtenirDonnees (){
-		ArrayList<ViewTech> lesViewTechs = Controleur.selectAllViewTechs();  
-		Object  matrice[][] = new Object[lesViewTechs.size()][3];
+		ArrayList<ViewAdmin> lesViewAdmins = Controleur.selectAllViewAdmins();  
+		Object  matrice[][] = new Object[lesViewAdmins.size()][3];
 		int i = 0; 
-		for (ViewTech unViewTech : lesViewTechs) {
-			matrice [i][0] = unViewTech.getNom(); 
-			matrice [i][1] = unViewTech.getPrenom(); 
-			matrice [i][2] = unViewTech.getNbInters(); 
+		for (ViewAdmin unViewAdmin : lesViewAdmins) {
+			matrice [i][0] = unViewAdmin.getNom(); 
+			matrice [i][1] = unViewAdmin.getPrenom(); 
+			matrice [i][2] = unViewAdmin.getNbInters(); 
 			 
 			i++;
 		}

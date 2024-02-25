@@ -51,7 +51,7 @@ public class Controleur {
 		Modele.insertIntervention (uneIntervention);
 	}
 
-	public static ArrayList<ViewTech> selectAllViewAdmin() {
+	public static ArrayList<ViewAdmin> selectAllViewAdmin() {
 		 
 		return Modele.selectAllViewAdmin(); 
 	}
