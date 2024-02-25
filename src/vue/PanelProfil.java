@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controleur.Controleur;
-import controleur.Technicien;
+import controleur.Admin;
 
 public class PanelProfil extends PanelPrincipal implements ActionListener
 {
@@ -31,9 +31,9 @@ public class PanelProfil extends PanelPrincipal implements ActionListener
 	private JButton btAnnuler = new JButton("Annuler"); 
 	private JButton btEnregistrer = new JButton("Enregistrer"); 
 	
-	private Technicien unTechnicien ; 
+	private Admin unTechnicien ; 
 	
-	public PanelProfil( Technicien unTechnicien ) {
+	public PanelProfil( Admin unTechnicien ) {
 		super(new Color ( 181, 135, 79  ));
 		
 		this.unTechnicien = unTechnicien; 

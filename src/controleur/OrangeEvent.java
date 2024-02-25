@@ -16,7 +16,7 @@ public class OrangeEvent {
 	public static void rendreVisibleConnexion (boolean action) {
 		uneVueConnexion.setVisible(action);
 	}
-	public static void rendreVisibleGenerale (boolean action, Technicien unTechnicien) {
+	public static void rendreVisibleGenerale (boolean action, Admin unTechnicien) {
 		if (action == true) {
 			uneVueGenerale = new VueGenerale(unTechnicien); 
 			uneVueGenerale.setVisible(true);

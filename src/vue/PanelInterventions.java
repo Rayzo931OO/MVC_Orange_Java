@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import controleur.Controleur;
 import controleur.Intervention;
 import controleur.Materiel;
-import controleur.Technicien;
+import controleur.Admin;
 
 public class PanelInterventions extends PanelPrincipal implements ActionListener
 {
@@ -67,8 +67,8 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 			this.txtIdMateriel.addItem(unMateriel.getIdmateriel()+"-"+unMateriel.getDesignation());
 		}
 		
-		ArrayList<Technicien> lesTechniciens = Controleur.selectAllTechniciens(); 
-		for (Technicien unTechnicien : lesTechniciens) {
+		ArrayList<Admin> lesTechniciens = Controleur.selectAllTechniciens(); 
+		for (Admin unTechnicien : lesTechniciens) {
 			this.txtIdTechnicien.addItem(unTechnicien.getIdtechnicien()+"-"
 					+ unTechnicien.getNom());
 		}

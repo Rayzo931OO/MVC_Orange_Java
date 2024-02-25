@@ -6,17 +6,17 @@ import modele.Modele;
 
 public class Controleur {
 
-	public static Technicien selectWhereTechnicien (String email, String mdp) {
+	public static Admin selectWhereTechnicien (String email, String mdp) {
 		//Controler l'email 
 		//controler la complexité du mdp 
 		return Modele.selectWhereTechnicien(email, mdp);
 	}
 	
-	public static ArrayList<Technicien> selectAllTechniciens (){
+	public static ArrayList<Admin> selectAllTechniciens (){
 		return Modele.selectAllTechniciens(); 
 	}
 	
-	public static void updateTechnicien (Technicien unTechnicien)
+	public static void updateTechnicien (Admin unTechnicien)
 	{
 		Modele.updateTechnicien (unTechnicien); 
 	}

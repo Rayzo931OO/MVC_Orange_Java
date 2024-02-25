@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import controleur.Controleur;
 import controleur.OrangeEvent;
-import controleur.Technicien;
+import controleur.Admin;
 
 public class VueConnexion extends JFrame implements ActionListener, KeyListener
 {
@@ -84,7 +84,7 @@ public class VueConnexion extends JFrame implements ActionListener, KeyListener
 		String mdp = new String (this.txtMdp.getPassword()); 
 		
 		//on vérifie dans la base de données à travers le modèle
-		Technicien unTechnicien = Controleur.selectWhereTechnicien(email, mdp); 
+		Admin unTechnicien = Controleur.selectWhereTechnicien(email, mdp); 
 		if (unTechnicien == null) {
 			JOptionPane.showMessageDialog(this, "Veuillez vérifier vos identifiants!");
 			this.txtEmail.setText("");

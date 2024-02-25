@@ -5,20 +5,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import controleur.Technicien;
+import controleur.Admin;
 import controleur.ViewTech;
 import controleur.Intervention;
 import controleur.Materiel;
 
 public class Modele {
-	private static Bdd uneBdd = new Bdd ("localhost:8889","orange_event_266","root","root");
+	private static Bdd uneBdd = new Bdd ("localhost:3306","mvc_orange","root","root");
 	
-	/************************* Gestion des techniciens ******************/
-	public static Technicien selectWhereTechnicien (String email, String mdp)
+	/************************* Gestion des Admins ******************/
+	public static Admin selectWhereAdmin (String email, String mdp)
 	{
-		Technicien unTechnicien = null; 
-		String requete = "select * from technicien where email='"+email
-				+ "' and mdp ='"+mdp+"'; ";
+		Admin unAdmin = null; 
+		String requete = "select * from Admin where email='"+email
+				+ "' and mdp ='"+mdp+" and role = admin'; ";
 		try {
 			uneBdd.seConnecter();
 			//création d'un curseur pour exécuter la requete 
@@ -27,8 +27,8 @@ public class Modele {
 			ResultSet unRes = unStat.executeQuery(requete); 
 			//s'il y a un resultat, on récupere les champs 
 			if (unRes.next()) {
-				unTechnicien = new Technicien (
-						unRes.getInt("idtechnicien"),   
+				unAdmin = new Admin (
+						unRes.getInt("id_utilisateur"),   
 						unRes.getString("nom"), 
 						unRes.getString("prenom"), 
 						unRes.getString("qualification"), 
@@ -43,13 +43,13 @@ public class Modele {
 			System.out.println("Erreur de requete : " +requete);
 		}
 		
-		return unTechnicien; 
+		return unAdmin; 
 	}
 
-	public static ArrayList<Technicien> selectAllTechniciens ()
+	public static ArrayList<Admin> selectAllAdmins ()
 	{
-		ArrayList<Technicien> lesTechniciens = new ArrayList<Technicien>(); 
-		String requete = "select * from technicien ; "; 
+		ArrayList<Admin> lesAdmins = new ArrayList<Admin>(); 
+		String requete = "select * from Admin ; "; 
 		try {
 			uneBdd.seConnecter();
 			//création d'un curseur pour exécuter la requete 
@@ -58,15 +58,15 @@ public class Modele {
 			ResultSet desRes = unStat.executeQuery(requete); 
 			//s'il y a un resultat, on récupere les champs 
 			while (desRes.next()) {
-				Technicien unTechnicien = new Technicien (
-						desRes.getInt("idtechnicien"),   
+				Admin unAdmin = new Admin (
+						desRes.getInt("idAdmin"),   
 						desRes.getString("nom"), 
 						desRes.getString("prenom"), 
 						desRes.getString("qualification"), 
 						desRes.getString("email"), 
 						desRes.getString("mdp")
 						);
-				lesTechniciens.add(unTechnicien);
+				lesAdmins.add(unAdmin);
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
@@ -74,13 +74,13 @@ public class Modele {
 		catch (SQLException exp) {
 			System.out.println("Erreur de requete : " +requete);
 		}
-		return lesTechniciens; 
+		return lesAdmins; 
 	}
 	
 	public static ArrayList<ViewTech> selectAllViewTechs ()
 	{
 		ArrayList<ViewTech> lesViewTechs = new ArrayList<ViewTech>(); 
-		String requete = "select * from  nbIntersTechniciens ; "; 
+		String requete = "select * from  nbIntersAdmins ; "; 
 		try {
 			uneBdd.seConnecter();
 			//création d'un curseur pour exécuter la requete 
@@ -105,13 +105,12 @@ public class Modele {
 		return lesViewTechs; 
 	}
 
-	public static void updateTechnicien(Technicien unTechnicien) {
-		 String requete = "update technicien set nom='"+unTechnicien.getNom()
-		 	+"', prenom = '"+unTechnicien.getPrenom()
-		 	+"', qualification = '"+unTechnicien.getQualification()
-		 	+"', email = '"+unTechnicien.getEmail()
-		 	+"', mdp = '"+unTechnicien.getMdp()
-		 	+"' where  idtechnicien = "+unTechnicien.getIdtechnicien()+";";
+	public static void updateAdmin(Admin unAdmin) {
+		 String requete = "update Admin set nom='"+unAdmin.getNom()
+		 	+"', prenom = '"+unAdmin.getPrenom()
+		 	+"', email = '"+unAdmin.getEmail()
+		 	+"', mdp = '"+unAdmin.getMdp()
+		 	+"' where  idAdmin = "+unAdmin.getIdAdmin()+";";
 		 try {
 			 uneBdd.seConnecter();
 			 Statement unStat = uneBdd.getMaConnexion().createStatement();
@@ -260,7 +259,7 @@ public class Modele {
 				+ uneIntervention.getDescription()+"','"
 				+uneIntervention.getDateinter()+"','"
 				+ uneIntervention.getPrix()+"','"
-				+uneIntervention.getIdtechnicien()+"','"
+				+uneIntervention.getIdAdmin()+"','"
 				+uneIntervention.getIdmateriel()+"');"; 
 		try {
 			 uneBdd.seConnecter();

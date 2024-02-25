@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controleur.OrangeEvent;
-import controleur.Technicien;
+import controleur.Admin;
 
 public class VueGenerale extends JFrame implements ActionListener
 {
@@ -29,7 +29,7 @@ public class VueGenerale extends JFrame implements ActionListener
 	private static PanelStats unPanelStats = new PanelStats();
 	
 	
-	public  VueGenerale(Technicien unTechnicien) {
+	public  VueGenerale(Admin unTechnicien) {
 		
 		unPanelProfil =  new PanelProfil(unTechnicien);
 		

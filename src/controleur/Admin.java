@@ -1,35 +1,33 @@
 package controleur;
 
-public class Technicien {
-	private int idtechnicien; 
-	private String nom, prenom, qualification, email, mdp;
+public class Admin {
+	private int idAdmin; 
+	private String nom, prenom, email, mdp;
 	
-	public Technicien(int idtechnicien, String nom, String prenom, String qualification, String email, String mdp) {
+	public Admin(int idAdmin, String nom, String prenom, String qualification, String email, String mdp) {
 		super();
-		this.idtechnicien = idtechnicien;
+		this.idAdmin = idAdmin;
 		this.nom = nom;
 		this.prenom = prenom;
-		this.qualification = qualification;
 		this.email = email;
 		this.mdp = mdp;
 	} 
 	
-	public Technicien( String nom, String prenom, String qualification, String email, String mdp) {
+	public Admin( String nom, String prenom, String qualification, String email, String mdp) {
 		super();
-		this.idtechnicien = 0;
+		this.idAdmin = 0;
 		this.nom = nom;
 		this.prenom = prenom;
-		this.qualification = qualification;
 		this.email = email;
 		this.mdp = mdp;
 	}
 
-	public int getIdtechnicien() {
-		return idtechnicien;
+	public int getIdAdmin() {
+		return idAdmin;
 	}
 
-	public void setIdtechnicien(int idtechnicien) {
-		this.idtechnicien = idtechnicien;
+	public void setIdtechnicien(int idAdmin) {
+		this.idAdmin = idAdmin;
 	}
 
 	public String getNom() {
@@ -46,14 +44,6 @@ public class Technicien {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
-	}
-
-	public String getQualification() {
-		return qualification;
-	}
-
-	public void setQualification(String qualification) {
-		this.qualification = qualification;
 	}
 
 	public String getEmail() {
