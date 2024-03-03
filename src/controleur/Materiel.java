@@ -1,66 +1,45 @@
 package controleur;
 
 public class Materiel {
-	private int idmateriel ; 
-	private String designation, dateAchat, categorie ; 
-	private float prixAchat; 
-	
-	public Materiel(int idmateriel, String designation, String dateAchat, float prixAchat, String categorie) {
+	private int id_materiel ;
+	private String nom, description ;
+
+	public Materiel(int id_materiel, String nom, String description) {
 		super();
-		this.idmateriel = idmateriel;
-		this.designation = designation;
-		this.dateAchat = dateAchat;
-		this.prixAchat = prixAchat;
-		this.categorie = categorie;
-	} 
-	
-	public Materiel( String designation, String dateAchat, float prixAchat, String categorie) {
+		this.id_materiel = id_materiel;
+		this.nom = nom;
+		this.description = description;
+	}
+
+	public Materiel( String nom, String description) {
 		super();
-		this.idmateriel = 0;
-		this.designation = designation;
-		this.dateAchat = dateAchat;
-		this.prixAchat = prixAchat;
-		this.categorie = categorie;
+		this.id_materiel = 0;
+		this.nom = nom;
+		this.description = description;
 	}
 
 	public int getIdmateriel() {
-		return idmateriel;
+		return id_materiel;
 	}
 
-	public void setIdmateriel(int idmateriel) {
-		this.idmateriel = idmateriel;
+	public void setIdmateriel(int id_materiel) {
+		this.id_materiel = id_materiel;
 	}
 
-	public String getDesignation() {
-		return designation;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
-	public String getDateAchat() {
-		return dateAchat;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDateAchat(String dateAchat) {
-		this.dateAchat = dateAchat;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public float getPrixAchat() {
-		return prixAchat;
-	}
-
-	public void setPrixAchat(float prixAchat) {
-		this.prixAchat = prixAchat;
-	}
-
-	public String getCategorie() {
-		return categorie;
-	}
-
-	public void setCategorie(String categorie) {
-		this.categorie = categorie;
-	} 
-	
 }

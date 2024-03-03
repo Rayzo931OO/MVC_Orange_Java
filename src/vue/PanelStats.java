@@ -13,31 +13,30 @@ import controleur.ViewAdmin;
 
 public class PanelStats extends PanelPrincipal{
 
-	private JTable tableView ; 
-	private JScrollPane uneScroll ; 
-	private Tableau unTableau ; 
-	
+	private JTable tableView ;
+	private JScrollPane uneScroll ;
+	private Tableau unTableau ;
+
 	public PanelStats() {
 		super(Color.yellow);
-		
+
 		String entetes [] = {"Nom", "Prénom", "Nb Interventions"};
-		this.unTableau = new Tableau(entetes, this.obtenirDonnees()); 
-		this.tableView = new JTable(this.unTableau); 
+		this.unTableau = new Tableau(entetes, this.obtenirDonnees());
+		this.tableView = new JTable(this.unTableau);
 		this.uneScroll = new JScrollPane(tableView);
-		
+
 		this.uneScroll.setBounds(80, 80, 300, 200);
-		this.add(this.uneScroll); 
-		 
+		this.add(this.uneScroll);
+
 	}
 	public Object [][] obtenirDonnees (){
-		ArrayList<ViewAdmin> lesViewAdmins = Controleur.selectAllViewAdmins();  
+		ArrayList<ViewAdmin> lesViewAdmins = Controleur.selectAllViewAdmins();
 		Object  matrice[][] = new Object[lesViewAdmins.size()][3];
-		int i = 0; 
+		int i = 0;
 		for (ViewAdmin unViewAdmin : lesViewAdmins) {
-			matrice [i][0] = unViewAdmin.getNom(); 
-			matrice [i][1] = unViewAdmin.getPrenom(); 
-			matrice [i][2] = unViewAdmin.getNbInters(); 
-			 
+			matrice [i][0] = unViewAdmin.getNom();
+			matrice [i][1] = unViewAdmin.getPrenom();
+			matrice [i][2] = unViewAdmin.getNbInters();
 			i++;
 		}
 		return matrice;

@@ -4,7 +4,7 @@ public class Admin {
 	private int idAdmin; 
 	private String nom, prenom, email, mdp;
 	
-	public Admin(int idAdmin, String nom, String prenom, String qualification, String email, String mdp) {
+	public Admin(int idAdmin, String nom, String prenom, String email, String mdp) {
 		super();
 		this.idAdmin = idAdmin;
 		this.nom = nom;
@@ -13,7 +13,7 @@ public class Admin {
 		this.mdp = mdp;
 	} 
 	
-	public Admin( String nom, String prenom, String qualification, String email, String mdp) {
+	public Admin( String nom, String prenom, String email, String mdp) {
 		super();
 		this.idAdmin = 0;
 		this.nom = nom;

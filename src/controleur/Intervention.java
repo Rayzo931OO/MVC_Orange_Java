@@ -1,30 +1,30 @@
 package controleur;
 
 public class Intervention {
-	private int idinter; 
+	private int idinter;
 	private String description, dateinter;
 	private float prix;
-	private int idadmin, idmateriel;
-	
-	public Intervention(int idinter, String description, String dateinter, float prix, int idadmin,
-			int idmateriel) {
+	private int idTechnicien, id_materiel;
+
+	public Intervention(int idinter, String description, String dateinter, float prix, int idTechnicien,
+			int id_materiel) {
 		super();
 		this.idinter = idinter;
 		this.description = description;
 		this.dateinter = dateinter;
 		this.prix = prix;
-		this.idadmin = idadmin;
-		this.idmateriel = idmateriel;
-	} 
-	public Intervention( String description, String dateinter, float prix, int idadmin,
-			int idmateriel) {
+		this.idTechnicien = idTechnicien;
+		this.id_materiel = id_materiel;
+	}
+	public Intervention( String description, String dateinter, float prix, int idTechnicien,
+			int id_materiel) {
 		super();
 		this.idinter = 0;
 		this.description = description;
 		this.dateinter = dateinter;
 		this.prix = prix;
-		this.idadmin = idadmin;
-		this.idmateriel = idmateriel;
+		this.idTechnicien = idTechnicien;
+		this.id_materiel = id_materiel;
 	}
 	public int getIdinter() {
 		return idinter;
@@ -50,17 +50,17 @@ public class Intervention {
 	public void setPrix(float prix) {
 		this.prix = prix;
 	}
-	public int getIdadmin() {
-		return idadmin;
+	public int getIdTechnicien() {
+		return idTechnicien;
 	}
-	public void setIdadmin(int idadmin) {
-		this.idadmin = idadmin;
+	public void setIdTechnicien(int idTechnicien) {
+		this.idTechnicien = idTechnicien;
 	}
 	public int getIdmateriel() {
-		return idmateriel;
+		return id_materiel;
 	}
-	public void setIdmateriel(int idmateriel) {
-		this.idmateriel = idmateriel;
-	} 
-	
+	public void setIdmateriel(int id_materiel) {
+		this.id_materiel = id_materiel;
+	}
+
 }
