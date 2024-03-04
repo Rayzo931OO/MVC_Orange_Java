@@ -55,6 +55,12 @@ public class Controleur {
 
 		return Modele.selectAllViewAdmins();
 	}
+
+	public static void createAdmin(Admin newAdmin) {
+		
+		Modele.createAdmin(newAdmin);
+		
+	}
 }
 
 

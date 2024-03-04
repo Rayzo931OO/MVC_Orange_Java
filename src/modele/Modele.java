@@ -263,6 +263,24 @@ public class Modele {
 		 }
 
 	}
+
+	public static void createAdmin(Admin newAdmin) {
+		String requete = "insert into user values (null, '"
+				+newAdmin.getNom()+"','"
+				+newAdmin.getPrenom()+"','"
+				+newAdmin.getEmail()+"','"
+				+newAdmin.getMdp()+"';";
+		try {
+			 uneBdd.seConnecter();
+			 Statement unStat = uneBdd.getMaConnexion().createStatement();
+			 unStat.execute(requete);
+			 unStat.close();
+			 uneBdd.seDeConnecter();
+		 }
+		 catch (SQLException exp) {
+			 System.out.println("Erreur de requete : " +requete);
+		 }
+	}
 }
 
 
