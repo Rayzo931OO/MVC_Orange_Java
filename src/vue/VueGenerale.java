@@ -14,7 +14,7 @@ import controleur.OrangeEvent;
 
 public class VueGenerale extends JFrame implements ActionListener
 {
-	private JButton btAdmins = new JButton("Admins");
+	private JButton btAdmins = new JButton("Techniciens");
 	private JButton btMateriels = new JButton("Materiels");
 	private JButton btInterventions = new JButton("Interventions");
 	private JButton btStats = new JButton("Stats");
