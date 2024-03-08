@@ -249,7 +249,6 @@ public class Modele {
 				+ uneIntervention.getDescription()+"','"
 				+uneIntervention.getDateinter()+"','"
 				+ uneIntervention.getPrix()+"','"
-				+uneIntervention.getIdAdmin()+"','"
 				+uneIntervention.getIdmateriel()+"');";
 		try {
 			 uneBdd.seConnecter();

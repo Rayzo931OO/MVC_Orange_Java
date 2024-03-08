@@ -154,7 +154,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 					// String categorie = tableMateriels.getValueAt(numLigne, 4).toString();
 					//remplissage du formulaire
 					txtNom.setText(nom);
-					txtDescription.setText(description);
+					//txtDescription.setText(description);
 					// txtCategorie.setText(categorie);
 					btEnregistrer.setText("Modifier");
 				}
@@ -185,7 +185,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 	public void viderChamps () {
 		//this.txtCategorie.setText("");
 		this.txtNom.setText("");
-		this.txtDescription.setText("");
+		// this.txtDescription.setText("");
 		this.btEnregistrer.setText("Enregistrer");
 	}
 	@Override
@@ -196,7 +196,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 		else if (e.getSource() == this.btEnregistrer && this.btEnregistrer.getText().equals("Enregistrer")) {
 			boolean ok = true;
 			String nom = this.txtNom.getText();
-			String description = this.txtDescription.getText();
+			// String description = this.txtDescription.getText();
 			// String categorie = this.txtCategorie.getSelectedItem().toString();
 			// float prix = 0;
 			// try {
@@ -215,7 +215,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			// }
 			if (ok) {
 				//on enregistre le new materiel dans la base
-				Materiel unMateriel = new Materiel(nom, description);
+				Materiel unMateriel = new Materiel(nom, "");
 				Controleur.insertMateriel (unMateriel);
 
 				//récupération de l'ID donné par mysql
@@ -223,7 +223,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 
 				JOptionPane.showMessageDialog(this, "Matériel inséré avec succés dans la BDD");
 				//insertion dans l'affichage graphique
-				Object ligne[]= {unMateriel.getIdmateriel(), nom, description};
+				Object ligne[]= {unMateriel.getIdmateriel(), nom, ""};
 				this.unTableau.ajouterLigne(ligne);
 				lbTechniciens.setText("Nombre de matériels disponibles :"+unTableau.getRowCount());
 
@@ -239,7 +239,7 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 
 		else if (e.getSource() == this.btEnregistrer && this.btEnregistrer.getText().equals("Modifier")) {
 			String nom = this.txtNom.getText();
-			String description = this.txtDescription.getText();
+			// String description = this.txtDescription.getText();
 			// String categorie = this.txtCategorie.getSelectedItem().toString();
 			// float prix = 0;
 			// try {
@@ -254,11 +254,11 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			idMateriel= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
 
 			//Instanciation d'un materiel
-			Materiel unMateriel = new Materiel(idMateriel, nom, description);
+			Materiel unMateriel = new Materiel(idMateriel, nom, "");
 			//modification dans la base de données
 			Controleur.updateMateriel(unMateriel);
 			//modification dans l'affichage
-			Object ligne []= {idMateriel, nom, description};
+			Object ligne []= {idMateriel, nom, ""};
 			this.unTableau.modifierLigne(numLigne, ligne);
 			JOptionPane.showMessageDialog(this, "Modification effectuée");
 			this.viderChamps();

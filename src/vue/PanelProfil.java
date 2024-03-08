@@ -176,7 +176,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
       String regexMdp = "^(?=.*[a-zA-Z]).{3,}$";
 
       boolean ok = false;
-      newAdmin = new Admin(null, "", "", "", "");
+      newAdmin = new Admin( "", "", "", "");
       // Vérification du regex pour l'email
       if (Pattern.compile(regexEmail).matcher(email).matches()) {
         // Vérification du regex pour le mot de passe
