@@ -7,9 +7,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import controleur.Controleur;
-import controleur.Materiel;
 import controleur.Tableau;
-import controleur.ViewAdmin;
+import controleur.ViewTechnicien;
 
 public class PanelStats extends PanelPrincipal{
 
@@ -30,13 +29,13 @@ public class PanelStats extends PanelPrincipal{
 
 	}
 	public Object [][] obtenirDonnees (){
-		ArrayList<ViewAdmin> lesViewAdmins = Controleur.selectAllViewAdmins();
-		Object  matrice[][] = new Object[lesViewAdmins.size()][3];
+		ArrayList<ViewTechnicien> lesViewTechniciens = Controleur.selectAllViewTechniciens();
+		Object  matrice[][] = new Object[lesViewTechniciens.size()][3];
 		int i = 0;
-		for (ViewAdmin unViewAdmin : lesViewAdmins) {
-			matrice [i][0] = unViewAdmin.getNom();
-			matrice [i][1] = unViewAdmin.getPrenom();
-			matrice [i][2] = unViewAdmin.getNbInters();
+		for (ViewTechnicien unViewTechnicien : lesViewTechniciens) {
+			matrice [i][0] = unViewTechnicien.getNom();
+			matrice [i][1] = unViewTechnicien.getPrenom();
+			matrice [i][2] = unViewTechnicien.getNbInters();
 			i++;
 		}
 		return matrice;

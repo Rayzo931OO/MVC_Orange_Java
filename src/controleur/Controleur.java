@@ -51,15 +51,15 @@ public class Controleur {
 		Modele.insertIntervention (uneIntervention);
 	}
 
-	public static ArrayList<ViewAdmin> selectAllViewAdmins() {
+	public static ArrayList<ViewTechnicien> selectAllViewTechniciens() {
 
-		return Modele.selectAllViewAdmins();
+		return Modele.selectAllViewTechniciens();
 	}
 
 	public static void createAdmin(Admin newAdmin) {
-		
+
 		Modele.createAdmin(newAdmin);
-		
+
 	}
 }
 

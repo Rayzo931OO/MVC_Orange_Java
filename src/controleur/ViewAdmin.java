@@ -1,15 +1,13 @@
 package controleur;
 
 public class ViewAdmin {
-	private String nom, prenom; 
-	private int nbInters ;
-	
+	private String nom, prenom;
+
 	public ViewAdmin(String nom, String prenom, int nbInters) {
 		this.nom = nom;
 		this.prenom = prenom;
-		this.nbInters = nbInters;
 	}
-	
+
 	public String getNom() {
 		return nom;
 	}
@@ -22,12 +20,4 @@ public class ViewAdmin {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-	public int getNbInters() {
-		return nbInters;
-	}
-	public void setNbInters(int nbInters) {
-		this.nbInters = nbInters;
-	} 
-	
-	
 }

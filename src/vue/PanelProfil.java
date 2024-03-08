@@ -1,12 +1,11 @@
 package vue;
 
-import controleur.Admin;
-import controleur.Controleur;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import controleur.Admin;
+import controleur.Controleur;
 
 public class PanelProfil extends PanelPrincipal implements ActionListener {
 
@@ -37,6 +39,9 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
   private JTextField txtPrenomAjout = new JTextField();
   private JTextField txtEmailAjout = new JTextField();
   private JPasswordField txtMdpAjout = new JPasswordField();
+  private JTextField txtCodePostalAjout = new JTextField();
+  private JTextField txtTelAjout = new JTextField();
+  private JTextField txtAdresseAjout = new JTextField();
   private JButton btAnnulerAjout = new JButton("Annuler");
   private JButton btEnregistrerAjout = new JButton("Enregistrer");
 
@@ -46,7 +51,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
   public PanelProfil(Admin unAdmin) {
     super(new Color(181, 135, 79));
     this.unAdmin = unAdmin;
-	this.newAdmin = null;
+	  this.newAdmin = null;
 
     this.txtInfos.setBounds(40, 50, 260, 200);
     String infos =
@@ -86,13 +91,19 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
     //construction du panel Form Ajout
     this.panelFormAjout.setBounds(350, 50, 450, 250);
     this.panelFormAjout.setBackground(new Color(181, 135, 79));
-    this.panelFormAjout.setLayout(new GridLayout(6, 1));
+    this.panelFormAjout.setLayout(new GridLayout(9, 1));
     this.panelFormAjout.add(new JLabel("Nom : "));
     this.panelFormAjout.add(this.txtNomAjout);
     this.panelFormAjout.add(new JLabel("Prénom : "));
     this.panelFormAjout.add(this.txtPrenomAjout);
     this.panelFormAjout.add(new JLabel("Email : "));
     this.panelFormAjout.add(this.txtEmailAjout);
+    this.panelFormAjout.add(new JLabel("Adresse : "));
+    this.panelFormAjout.add(this.txtAdresseAjout);
+    this.panelFormAjout.add(new JLabel("Code Postal : "));
+    this.panelFormAjout.add(this.txtCodePostalAjout);
+    this.panelFormAjout.add(new JLabel("Telephone : "));
+    this.panelFormAjout.add(this.txtTelAjout);
     this.panelFormAjout.add(new JLabel("MDP : "));
     this.panelFormAjout.add(this.txtMdpAjout);
     this.panelFormAjout.add(this.btAnnulerAjout);
@@ -169,6 +180,9 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
       String nom = this.txtNomAjout.getText();
       String prenom = this.txtPrenomAjout.getText();
       String email = this.txtEmailAjout.getText();
+      String codePostal = this.txtCodePostalAjout.getText();
+      String telephone = this.txtTelAjout.getText();
+      String adresse = this.txtAdresseAjout.getText();
       String mdp = new String(this.txtMdpAjout.getPassword());
       //on controle les données avant modification
 
@@ -176,7 +190,8 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
       String regexMdp = "^(?=.*[a-zA-Z]).{3,}$";
 
       boolean ok = false;
-      newAdmin = new Admin( "", "", "", "");
+      newAdmin = new Admin( "", "", "", "", "", "", "");
+
       // Vérification du regex pour l'email
       if (Pattern.compile(regexEmail).matcher(email).matches()) {
         // Vérification du regex pour le mot de passe
@@ -194,6 +209,9 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
         this.newAdmin.setNom(nom);
         this.newAdmin.setPrenom(prenom);
         this.newAdmin.setEmail(email);
+        this.newAdmin.setCodePostal(codePostal);
+        this.newAdmin.setTel(telephone);
+        this.newAdmin.setAdresse(adresse);
         this.newAdmin.setMdp(mdp);
         Controleur.createAdmin(newAdmin);
 

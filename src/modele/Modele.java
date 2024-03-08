@@ -8,292 +8,319 @@ import java.util.ArrayList;
 import controleur.Admin;
 import controleur.Intervention;
 import controleur.Materiel;
-import controleur.ViewAdmin;
+import controleur.Technicien;
+import controleur.ViewTechnicien;
 
 public class Modele {
-	private static Bdd uneBdd = new Bdd ("localhost:3306","mvc_orange","root","");
+	private static Bdd uneBdd = new Bdd("localhost:3306", "mvc_orange", "root", "");
 
 	/************************* Gestion des Admins ******************/
-	public static Admin selectWhereAdmin (String email, String mot_de_passe)
-	{
+	/**
+	 * Récupère tous les administrateurs de la base de données.
+	 *
+	 * @return Une ArrayList d'objets Admin.
+	 */
+	public static Admin selectWhereAdmin(String email, String mot_de_passe) {
 		Admin unAdmin = null;
-		String requete = "select * from user where email='"+email
-				+ "' and mot_de_passe ='"+mot_de_passe+"' and role = 'admin'; ";
+		String requete = "select * from user where email='" + email
+				+ "' and mot_de_passe ='" + mot_de_passe + "' and role = 'admin'; ";
 		try {
 			uneBdd.seConnecter();
-			//création d'un curseur pour exécuter la requete
+			// création d'un curseur pour exécuter la requete
 			Statement unStat = uneBdd.getMaConnexion().createStatement();
-			//execution de la requete et récuperation d'un resultat
+			// execution de la requete et récuperation d'un resultat
 			ResultSet unRes = unStat.executeQuery(requete);
-			//s'il y a un resultat, on récupere les champs
-			//System.out.println(unRes);
+			// s'il y a un resultat, on récupere les champs
+			// System.out.println(unRes);
 			if (unRes.next()) {
-				unAdmin = new Admin (
+				unAdmin = new Admin(
 						unRes.getInt("id_utilisateur"),
 						unRes.getString("nom"),
 						unRes.getString("prenom"),
 						unRes.getString("email"),
-						unRes.getString("mot_de_passe")
-						);
+						unRes.getString("code_postal"),
+						unRes.getString("adresse"),
+						unRes.getString("telephone"),
+						unRes.getString("mot_de_passe"));
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
-		}
-		catch (SQLException exp) {
-			System.out.println("Erreur de requete : " +requete);
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
 		}
 
 		return unAdmin;
 	}
 
-	public static ArrayList<Admin> selectAllAdmins ()
-	{
-		ArrayList<Admin> lesAdmins = new ArrayList<Admin>();
-		String requete = "select * from user where role = 'admin'; ";
+	/**
+	 * Met à jour les informations d'un administrateur dans la base de données.
+	 *
+	 * @param unAdmin L'objet Admin contenant les informations mises à jour.
+	 */
+	public static void updateAdmin(Admin unAdmin) {
+		String requete = "update user set nom='" + unAdmin.getNom()
+				+ "', prenom = '" + unAdmin.getPrenom()
+				+ "', email = '" + unAdmin.getEmail()
+				+ "', mot_de_passe = '" + unAdmin.getMdp()
+				+ "' where  id_utilisateur = " + unAdmin.getIdAdmin() + ";";
 		try {
 			uneBdd.seConnecter();
-			//création d'un curseur pour exécuter la requete
 			Statement unStat = uneBdd.getMaConnexion().createStatement();
-			//execution de la requete et récuperation d'un resultat
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	/**
+	 * Crée un nouvel utilisateur administrateur dans la base de données.
+	 *
+	 * @param newAdmin l'objet Admin représentant le nouvel utilisateur
+	 *                 administrateur
+	 */
+	public static void createAdmin(Admin newAdmin) {
+		String requete = "insert into user (nom, prenom, email, code_postal, adresse, telephone, mot_de_passe, role) values ('"
+				+ newAdmin.getNom() + "','"
+				+ newAdmin.getPrenom() + "','"
+				+ newAdmin.getEmail() + "','"
+				+ newAdmin.getCodePostal() + "','"
+				+ newAdmin.getAdresse() + "','"
+				+ newAdmin.getTel() + "','"
+				+ newAdmin.getMdp() + "','"
+				+ newAdmin.getRole() + "');";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	/************************* Gestion des Techniciens ******************/
+	/**
+	 * Crée un nouvel utilisateur technicien dans la base de données.
+	 * @param unTechnicien l'objet Technicien représentant le nouvel utilisateur
+	 *                 technicien
+	 */
+	public static void createTechnicien(Technicien unTechnicien) {
+		String requete = "insert into user values (null, '"
+				+ unTechnicien.getNom() + "','"
+				+ unTechnicien.getPrenom() + "','"
+				+ unTechnicien.getEmail() + "','"
+				+ unTechnicien.getCodePostal() + "','"
+				+ unTechnicien.getAdresse() + "','"
+				+ unTechnicien.getTel() + "','"
+				+ unTechnicien.getMdp() + "','"
+				+ unTechnicien.getRole() + "');";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	/**
+	 * Récupère tous les techniciens de la base de données.
+	 *
+	 * @return Une ArrayList d'objets Technicien.
+	 */
+	public static ArrayList<Technicien> selectAllTechniciens() {
+		ArrayList<Technicien> lesTechniciens = new ArrayList<Technicien>();
+		String requete = "select * from user where role = 'technicien'; ";
+		try {
+			uneBdd.seConnecter();
+			// création d'un curseur pour exécuter la requete
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			// execution de la requete et récuperation d'un resultat
 			ResultSet desRes = unStat.executeQuery(requete);
-			//s'il y a un resultat, on récupere les champs
+			// s'il y a un resultat, on récupere les champs
 			while (desRes.next()) {
-				Admin unAdmin = new Admin (
+				Technicien unTechnicien = new Technicien(
 						desRes.getInt("id_utilisateur"),
 						desRes.getString("nom"),
 						desRes.getString("prenom"),
 						desRes.getString("email"),
-						desRes.getString("mot_de_passe")
-						);
-				lesAdmins.add(unAdmin);
+						desRes.getString("code_postal"),
+						desRes.getString("adresse"),
+						desRes.getString("telephone"),
+						desRes.getString("mot_de_passe"));
+				lesTechniciens.add(unTechnicien);
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
 		}
-		catch (SQLException exp) {
-			System.out.println("Erreur de requete : " +requete);
-		}
-		return lesAdmins;
+		return lesTechniciens;
 	}
 
-	public static ArrayList<ViewAdmin> selectAllViewAdmins ()
-	{
-		ArrayList<ViewAdmin> lesViewAdmins = new ArrayList<ViewAdmin>();
-		String requete = "select * from  nbIntersAdmins ; ";
+	public static ArrayList<ViewTechnicien> selectAllViewTechniciens() {
+		ArrayList<ViewTechnicien> lesViewTechniciens = new ArrayList<ViewTechnicien>();
+		String requete = "select * from  nbIntersTechniciens ; ";
 		try {
 			uneBdd.seConnecter();
-			//création d'un curseur pour exécuter la requete
+			// création d'un curseur pour exécuter la requete
 			Statement unStat = uneBdd.getMaConnexion().createStatement();
-			//execution de la requete et récuperation d'un resultat
+			// execution de la requete et récuperation d'un resultat
 			ResultSet desRes = unStat.executeQuery(requete);
-			//s'il y a un resultat, on récupere les champs
+			// s'il y a un resultat, on récupere les champs
 			while (desRes.next()) {
-				ViewAdmin unViewAdmin = new ViewAdmin (
+				ViewTechnicien unViewTechnicien = new ViewTechnicien(
 						desRes.getString("nom"),
 						desRes.getString("prenom"),
-						desRes.getInt("nbInterventions")
-						);
-				lesViewAdmins.add(unViewAdmin);
+						desRes.getString("email"),
+						desRes.getString("telephone"));
+				lesViewTechniciens.add(unViewTechnicien);
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
 		}
-		catch (SQLException exp) {
-			System.out.println("Erreur de requete : " +requete);
-		}
-		return lesViewAdmins;
+		return lesViewTechniciens;
 	}
 
-	public static void updateAdmin(Admin unAdmin) {
-		 String requete = "update user set nom='"+unAdmin.getNom()
-		 	+"', prenom = '"+unAdmin.getPrenom()
-		 	+"', email = '"+unAdmin.getEmail()
-		 	+"', mot_de_passe = '"+unAdmin.getMdp()
-		 	+"' where  id_utilisateur = "+unAdmin.getIdAdmin()+";";
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
-
-	}
-
+	/************************* Gestion des Materiels ******************/
 	public static void insertMateriel(Materiel unMateriel) {
-		 String requete = "insert into materiel values (null, '"+unMateriel.getDescription()
-		 	+ "','"+unMateriel.getDescription()+"');";
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+		String requete = "insert into materiel values (null, '" + unMateriel.getDescription()
+				+ "','" + unMateriel.getDescription() + "');";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 	}
 
-	public static ArrayList<Materiel> selectAllMateriels (String filtre){
-		ArrayList <Materiel> lesMateriels = new ArrayList<Materiel>();
-		String requete ="";
+	public static ArrayList<Materiel> selectAllMateriels(String filtre) {
+		ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
+		String requete = "";
 		if (filtre.equals("")) {
 			requete = "select * from materiel ;";
-		}else {
-			requete = "select * from materiel where nom like '%"+filtre
-					+"%' or description like '%"+filtre+"%' ; ";
+		} else {
+			requete = "select * from materiel where nom like '%" + filtre
+					+ "%' or description like '%" + filtre + "%' ; ";
 		}
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 ResultSet desRes = unStat.executeQuery(requete);
-			 while (desRes.next()) {
-				 Materiel unMateriel = new Materiel(
-						 desRes.getInt("id_materiel"),
-						 desRes.getString("nom"),
-						 desRes.getString("description")
-						 );
-			    lesMateriels.add(unMateriel);
-			 }
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			while (desRes.next()) {
+				Materiel unMateriel = new Materiel(
+						desRes.getInt("id_materiel"),
+						desRes.getString("nom"),
+						desRes.getString("description"));
+				lesMateriels.add(unMateriel);
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 		return lesMateriels;
 	}
-	public static  Materiel selectWhereMateriel (int id_materiel){
+
+	public static Materiel selectWhereMateriel(int id_materiel) {
 
 		String requete = "select * from materiel where id_materiel =" + id_materiel;
 		Materiel unMateriel = null;
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 ResultSet desRes = unStat.executeQuery(requete);
-			 if (desRes.next()) {
-				  unMateriel = new Materiel(
-						 desRes.getInt("id_materiel"),
-						 desRes.getString("nom"),
-						 desRes.getString("description")
-						 );
-			 }
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				unMateriel = new Materiel(
+						desRes.getInt("id_materiel"),
+						desRes.getString("nom"),
+						desRes.getString("description"));
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 		return unMateriel;
 	}
 
-	public static  Materiel selectWhereMateriel (String nom){
+	public static Materiel selectWhereMateriel(String nom) {
 
-		String requete = "select * from materiel where nom='"+nom
+		String requete = "select * from materiel where nom='" + nom
 				+ "';";
 		Materiel unMateriel = null;
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 ResultSet desRes = unStat.executeQuery(requete);
-			 if (desRes.next()) {
-				  unMateriel = new Materiel(
-						 desRes.getInt("id_materiel"),
-						 desRes.getString("nom"),
-						 desRes.getString("description")
-						 );
-			 }
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				unMateriel = new Materiel(
+						desRes.getInt("id_materiel"),
+						desRes.getString("nom"),
+						desRes.getString("description"));
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 		return unMateriel;
 	}
+
 	public static void deleteMateriel(int id_materiel) {
-		 String requete = "delete from materiel where id_materiel = " + id_materiel+";";
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
-	}
-	public static void updateMateriel(Materiel unMateriel) {
-		 String requete = "update materiel set nom ='"+unMateriel.getNom()
-		 	+ "', description=' "+unMateriel.getDescription()
-		 	+"' where id_materiel ="+unMateriel.getIdmateriel()+";";
-		 try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+		String requete = "delete from materiel where id_materiel = " + id_materiel + ";";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 	}
 
+	public static void updateMateriel(Materiel unMateriel) {
+		String requete = "update materiel set nom ='" + unMateriel.getNom()
+				+ "', description=' " + unMateriel.getDescription()
+				+ "' where id_materiel =" + unMateriel.getIdmateriel() + ";";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	/************************* Gestion des Interventions ******************/
 	public static void insertIntervention(Intervention uneIntervention) {
 		String requete = "insert into intervention values (null, '"
-				+ uneIntervention.getDescription()+"','"
-				+uneIntervention.getDateinter()+"','"
-				+ uneIntervention.getPrix()+"','"
-				+uneIntervention.getIdmateriel()+"');";
+				+ uneIntervention.getDescription() + "','"
+				+ uneIntervention.getDateinter() + "','"
+				+ uneIntervention.getPrix() + "','"
+				+ uneIntervention.getIdmateriel() + "');";
 		try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
 
-	}
-
-	public static void createAdmin(Admin newAdmin) {
-		String requete = "insert into user values (null, '"
-				+newAdmin.getNom()+"','"
-				+newAdmin.getPrenom()+"','"
-				+newAdmin.getEmail()+"','"
-				+newAdmin.getMdp()+"';";
-		try {
-			 uneBdd.seConnecter();
-			 Statement unStat = uneBdd.getMaConnexion().createStatement();
-			 unStat.execute(requete);
-			 unStat.close();
-			 uneBdd.seDeConnecter();
-		 }
-		 catch (SQLException exp) {
-			 System.out.println("Erreur de requete : " +requete);
-		 }
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
