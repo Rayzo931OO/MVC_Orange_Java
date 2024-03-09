@@ -61,6 +61,9 @@ public class Modele {
 		String requete = "update user set nom='" + unAdmin.getNom()
 				+ "', prenom = '" + unAdmin.getPrenom()
 				+ "', email = '" + unAdmin.getEmail()
+				+ "', code_postal = '" + unAdmin.getCodePostal()
+				+ "', adresse = '" + unAdmin.getAdresse()
+				+ "', telephone = '" + unAdmin.getTel()
 				+ "', mot_de_passe = '" + unAdmin.getMdp()
 				+ "' where  id_utilisateur = " + unAdmin.getIdAdmin() + ";";
 		try {
@@ -204,7 +207,7 @@ public class Modele {
 		} else {
 			requete = "select * from user where role = 'technicien' and (nom like '%" + filtre
 					+ "%' or prenom like '%" + filtre + "%' or email like '%" + filtre + "%' or telephone like '%" + filtre
-					+ "%'');";
+					+ "%');";
 		}
 		try {
 			uneBdd.seConnecter();

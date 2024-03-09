@@ -193,6 +193,38 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
     return ok;
   }
 
+  public void viderChamps () {
+		this.txtNom.setText("");
+		this.txtPrenom.setText("");
+		this.txtEmail.setText("");
+		this.txtCodePostal.setText("");
+		this.txtAdresse.setText("");
+		this.txtTel.setText("");
+		this.txtMdp.setText("");
+		this.btEnregistrer.setText("Enregistrer");
+	}
+	public void viderChamps (String type) {
+		if (type.equals("Modifier")) {
+			this.txtNom.setText("");
+			this.txtPrenom.setText("");
+			this.txtEmail.setText("");
+			this.txtCodePostal.setText("");
+			this.txtAdresse.setText("");
+			this.txtTel.setText("");
+			this.txtMdp.setText("");
+      this.btEnregistrer.setText("Enregistrer");
+		}else if (type.equals("Ajout")) {
+			this.txtNomAjout.setText("");
+			this.txtPrenomAjout.setText("");
+			this.txtEmailAjout.setText("");
+			this.txtCodePostalAjout.setText("");
+			this.txtAdresseAjout.setText("");
+			this.txtTelAjout.setText("");
+			this.txtMdpAjout.setText("");
+      this.btEnregistrerAjout.setText("Enregistrer");
+		}
+
+	}
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == this.btModifier) {
@@ -219,6 +251,9 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
         this.unAdmin.setNom(nom);
         this.unAdmin.setPrenom(prenom);
         this.unAdmin.setEmail(email);
+        this.unAdmin.setCodePostal(codePostal);
+        this.unAdmin.setTel(telephone);
+        this.unAdmin.setAdresse(adresse);
         this.unAdmin.setMdp(mdp);
         Controleur.updateAdmin(unAdmin);
 
@@ -240,6 +275,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
             unAdmin.getTel();
 
         this.txtInfos.setText(infos);
+        this.viderChamps("Modifier");
       }
     } else if (e.getSource() == this.btAnnulerAjout) {
       this.panelFormAjout.setVisible(false);
@@ -283,6 +319,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
             unAdmin.getTel();
 
         this.txtInfos.setText(infos);
+        this.viderChamps("Ajout");
       }
     }
   }

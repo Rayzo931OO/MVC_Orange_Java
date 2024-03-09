@@ -17,7 +17,7 @@ public class PanelStats extends PanelPrincipal{
 	private Tableau unTableau ;
 
 	public PanelStats() {
-		super(Color.yellow);
+		super(new Color ( 181, 135, 79  ));
 
 		String entetes [] = {"Nom", "Prénom", "Nb Interventions"};
 		this.unTableau = new Tableau(entetes, this.obtenirDonnees());
