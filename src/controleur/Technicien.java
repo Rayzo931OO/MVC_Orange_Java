@@ -19,8 +19,7 @@ public class Technicien {
     * @param adresse      L'adresse du technicien
     * @param tel          Le numéro de téléphone du technicien
     */
-   public Technicien(int idTechnicien, String nom, String prenom, String email, String mdp, String codePostal,
-         String adresse, String tel) {
+   public Technicien(int idTechnicien, String nom, String prenom, String email, String codePostal,String adresse, String tel, String mdp) {
       super();
       this.idTechnicien = idTechnicien;
       this.nom = nom;
@@ -44,8 +43,7 @@ public class Technicien {
     * @param adresse     L'adresse du technicien
     * @param tel         Le numéro de téléphone du technicien
     */
-   public Technicien(String nom, String prenom, String email, String mdp, String codePostal, String adresse,
-         String tel) {
+   public Technicien(String nom, String prenom, String email, String codePostal,String adresse, String tel, String mdp) {
       super();
       this.idTechnicien = 0;
       this.nom = nom;

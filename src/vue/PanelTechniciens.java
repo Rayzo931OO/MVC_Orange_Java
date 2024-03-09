@@ -17,11 +17,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import controleur.Controleur;
-import controleur.Technicien;
 import controleur.Tableau;
+import controleur.Technicien;
 
 public class PanelTechniciens extends PanelPrincipal implements ActionListener
 {
+	private int idTechnicien;
 	private JPanel panelForm = new JPanel();
 	private JTextField txtNom = new JTextField();
 	private JTextField txtPrenom = new JTextField();
@@ -77,8 +78,9 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 		this.panelForm.setVisible(true);
 
 		//construction de la Jtable des techniciens
-		String entetes [] = {"ID Technicien", "Nom", "prenom", "Email", "Telephone"};
+		String entetes [] = {"ID Technicien", "Nom", "prenom", "Email", "Code Postal", "Adresse","Telephone"};
 		this.unTableau = new Tableau (entetes, this.obtenirDonnees(""));
+		this.idTechnicien = 0;
 		this.tableTechniciens = new JTable(this.unTableau);
 		this.uneScroll = new JScrollPane(this.tableTechniciens);
 		this.uneScroll.setBounds(400, 80,400, 220);
@@ -132,7 +134,6 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int numLigne = 0;
-				int idTechnicien = 0;
 				if (e.getClickCount()>=2) {
 					numLigne = tableTechniciens.getSelectedRow();
 					idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
@@ -150,12 +151,21 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 					numLigne = tableTechniciens.getSelectedRow();
 					idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
 					String nom = tableTechniciens.getValueAt(numLigne, 1).toString();
-					String description = tableTechniciens.getValueAt(numLigne, 2).toString();
+					String prenom = tableTechniciens.getValueAt(numLigne, 2).toString();
+					String email = tableTechniciens.getValueAt(numLigne, 3).toString();
+					String codePostal = tableTechniciens.getValueAt(numLigne, 4).toString();
+					String Adresse = tableTechniciens.getValueAt(numLigne, 5).toString();
+					String tel = tableTechniciens.getValueAt(numLigne, 6).toString();
+					// String mdp = tableTechniciens.getValueAt(numLigne, 2).toString();
 					// String categorie = tableTechniciens.getValueAt(numLigne, 4).toString();
 					//remplissage du formulaire
+					// convert idTechnicien to string
 					txtNom.setText(nom);
-					//txtDescription.setText(description);
-					// txtCategorie.setText(categorie);
+					txtPrenom.setText(prenom);
+					txtEmail.setText(email);
+					txtAdresse.setText(Adresse);
+					txtTelephone.setText(tel);
+					txtCodePostal.setText(codePostal);
 					btEnregistrer.setText("Modifier");
 				}
 
@@ -170,22 +180,28 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 	}
 	public Object [][] obtenirDonnees (String filtre){
 		ArrayList<Technicien> lesTechniciens = Controleur.selectAllTechniciens(filtre);
-		Object [][] matrice = new Object[lesTechniciens.size()][5];
+		Object [][] matrice = new Object[lesTechniciens.size()][7];
 		int i = 0;
 		for (Technicien unTechnicien : lesTechniciens) {
 			matrice [i][0] = unTechnicien.getIdTechnicien();
 			matrice [i][1] = unTechnicien.getNom();
 			matrice [i][2] = unTechnicien.getPrenom();
 			matrice [i][3] = unTechnicien.getEmail();
-			matrice [i][4] = unTechnicien.getTel();
+			matrice [i][4] = unTechnicien.getCodePostal();
+			matrice [i][5] = unTechnicien.getAdresse();
+			matrice [i][6] = unTechnicien.getTel();
 			i++;
 		}
 		return matrice;
 	}
 	public void viderChamps () {
-		//this.txtCategorie.setText("");
 		this.txtNom.setText("");
-		// this.txtDescription.setText("");
+		this.txtPrenom.setText("");
+		this.txtEmail.setText("");
+		this.txtCodePostal.setText("");
+		this.txtAdresse.setText("");
+		this.txtTelephone.setText("");
+		this.txtMDP.setText("");
 		this.btEnregistrer.setText("Enregistrer");
 	}
 	@Override
@@ -221,15 +237,15 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			// }
 			if (ok) {
 				//on enregistre le new technicien dans la base
-				Technicien unTechnicien = new Technicien(nom, "", "", "", "", "", "");
-				Controleur.insertTechnicien (unTechnicien);
+				Technicien unTechnicien = new Technicien(nom, prenom, email, codePostal, adresse, tel, mdp);
+				Controleur.createTechnicien (unTechnicien);
 
 				//récupération de l'ID donné par mysql
-				unTechnicien = Controleur.selectWhereTechnicien(nom);
+				unTechnicien = Controleur.selectWhereTechnicien(email);
 
 				JOptionPane.showMessageDialog(this, "Technicien inséré avec succés dans la BDD");
 				//insertion dans l'affichage graphique
-				Object ligne[]= {unTechnicien.getIdtechnicien(), nom, ""};
+				Object ligne[]= {unTechnicien.getIdTechnicien(), nom, prenom, email, codePostal, adresse, tel};
 				this.unTableau.ajouterLigne(ligne);
 				lbTechniciens.setText("Nombre de Techniciens disponibles :"+unTableau.getRowCount());
 
@@ -245,6 +261,13 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 
 		else if (e.getSource() == this.btEnregistrer && this.btEnregistrer.getText().equals("Modifier")) {
 			String nom = this.txtNom.getText();
+			String prenom = this.txtPrenom.getText();
+			String email = this.txtEmail.getText();
+			String adresse = this.txtAdresse.getText();
+			String codePostal = this.txtCodePostal.getText();
+			String mdp = this.txtMDP.getText();
+			String tel = this.txtTelephone.getText();
+
 			// String description = this.txtDescription.getText();
 			// String categorie = this.txtCategorie.getSelectedItem().toString();
 			// float prix = 0;
@@ -255,16 +278,14 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			// 	JOptionPane.showMessageDialog(this, "Erreur format du prix");
 			// }
 			int numLigne = 0 ;
-			int idTechnicien = 0;
 			numLigne = tableTechniciens.getSelectedRow();
-			idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
 
 			//Instanciation d'un technicien
-			Technicien unTechnicien = new Technicien(idTechnicien, nom, "");
+			Technicien unTechnicien = new Technicien(idTechnicien, nom, prenom, email, codePostal, adresse, tel, mdp);
 			//modification dans la base de données
 			Controleur.updateTechnicien(unTechnicien);
 			//modification dans l'affichage
-			Object ligne []= {idTechnicien, nom, ""};
+			Object ligne []= {idTechnicien, nom, prenom, email, codePostal, adresse, tel};
 			this.unTableau.modifierLigne(numLigne, ligne);
 			JOptionPane.showMessageDialog(this, "Modification effectuée");
 			this.viderChamps();

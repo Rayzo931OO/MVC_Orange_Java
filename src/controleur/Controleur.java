@@ -69,6 +69,18 @@ public class Controleur {
    public static ArrayList<Technicien> selectAllTechniciens(String filtre) {
 		return Modele.selectAllTechniciens(filtre);
    }
+
+	public static void updateTechnicien(Technicien unTechnicien) {
+		Modele.updateTechnicien(unTechnicien);
+	}
+
+	public static Technicien selectWhereTechnicien(String email) {
+		return Modele.selectWhereTechnicien(email);
+	}
+
+	public static void createTechnicien(Technicien unTechnicien) {
+		Modele.createTechnicien(unTechnicien);
+	}
 }
 
 
