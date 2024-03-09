@@ -9,7 +9,7 @@ import controleur.Admin;
 import controleur.Intervention;
 import controleur.Materiel;
 import controleur.Technicien;
-import controleur.ViewTechnicien;
+import controleur.ViewNbIntervention;
 
 public class Modele {
 	private static Bdd uneBdd = new Bdd("localhost:3306", "mvc_orange", "root", "");
@@ -104,8 +104,9 @@ public class Modele {
 	/************************* Gestion des Techniciens ******************/
 	/**
 	 * Crée un nouvel utilisateur technicien dans la base de données.
+	 *
 	 * @param unTechnicien l'objet Technicien représentant le nouvel utilisateur
-	 *                 technicien
+	 *                     technicien
 	 */
 	public static void createTechnicien(Technicien unTechnicien) {
 		String requete = "insert into user values (null, '"
@@ -163,9 +164,9 @@ public class Modele {
 		return lesTechniciens;
 	}
 
-	public static ArrayList<ViewTechnicien> selectAllViewTechniciens() {
-		ArrayList<ViewTechnicien> lesViewTechniciens = new ArrayList<ViewTechnicien>();
-		String requete = "select * from  nbIntersTechniciens ; ";
+	public static ArrayList<ViewNbIntervention> ViewNbIntervention() {
+		ArrayList<ViewNbIntervention> lesViewNbIntervention = new ArrayList<ViewNbIntervention>();
+		String requete = "select * from  nbinterstechniciens;";
 		try {
 			uneBdd.seConnecter();
 			// création d'un curseur pour exécuter la requete
@@ -174,19 +175,17 @@ public class Modele {
 			ResultSet desRes = unStat.executeQuery(requete);
 			// s'il y a un resultat, on récupere les champs
 			while (desRes.next()) {
-				ViewTechnicien unViewTechnicien = new ViewTechnicien(
-						desRes.getString("nom"),
-						desRes.getString("prenom"),
-						desRes.getString("email"),
-						desRes.getString("telephone"));
-				lesViewTechniciens.add(unViewTechnicien);
+				ViewNbIntervention uneViewNbIntervention = new ViewNbIntervention(
+						desRes.getInt("nbInters"),
+						desRes.getInt("id_technicien"));
+				lesViewNbIntervention.add(uneViewNbIntervention);
 			}
 			unStat.close();
 			uneBdd.seDeConnecter();
 		} catch (SQLException exp) {
 			System.out.println("Erreur de requete : " + requete);
 		}
-		return lesViewTechniciens;
+		return lesViewNbIntervention;
 	}
 
 	/************************* Gestion des Materiels ******************/
@@ -322,5 +321,52 @@ public class Modele {
 			System.out.println("Erreur de requete : " + requete);
 		}
 
+	}
+
+	public static void deleteTechnicien(int idTechnicien) {
+		// TODO Auto-generated method stub
+		String requete = "delete from user where id_utilisateur = " + idTechnicien + ";";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	public static ArrayList<Technicien> selectAllTechniciens(String filtre) {
+		ArrayList<Technicien> lesTechniciens = new ArrayList<Technicien>();
+		String requete = "";
+		if (filtre.equals("")) {
+			requete = "select * from user where role = 'technicien' ;";
+		} else {
+			requete = "select * from user where role = 'technicien' and (nom like '%" + filtre
+					+ "%' or prenom like '%" + filtre + "%' or email like '%" + filtre + "%' or telephone like '%" + filtre + "%'');";
+		}
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			while (desRes.next()) {
+				Technicien unTechnicien = new Technicien(
+						desRes.getInt("id_utilisateur"),
+						desRes.getString("nom"),
+						desRes.getString("prenom"),
+						desRes.getString("email"),
+						desRes.getString("code_postal"),
+						desRes.getString("adresse"),
+						desRes.getString("telephone"),
+						desRes.getString("mot_de_passe"));
+				lesTechniciens.add(unTechnicien);
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return lesTechniciens;
 	}
 }

@@ -8,7 +8,7 @@ import javax.swing.JTable;
 
 import controleur.Controleur;
 import controleur.Tableau;
-import controleur.ViewTechnicien;
+import controleur.ViewNbIntervention;
 
 public class PanelStats extends PanelPrincipal{
 
@@ -29,13 +29,13 @@ public class PanelStats extends PanelPrincipal{
 
 	}
 	public Object [][] obtenirDonnees (){
-		ArrayList<ViewTechnicien> lesViewTechniciens = Controleur.selectAllViewTechniciens();
-		Object  matrice[][] = new Object[lesViewTechniciens.size()][3];
+		ArrayList<ViewNbIntervention> lesViewNbIntervention = Controleur.ViewNbIntervention();
+		Object  matrice[][] = new Object[lesViewNbIntervention.size()][3];
 		int i = 0;
-		for (ViewTechnicien unViewTechnicien : lesViewTechniciens) {
-			matrice [i][0] = unViewTechnicien.getNom();
-			matrice [i][1] = unViewTechnicien.getPrenom();
-			matrice [i][2] = unViewTechnicien.getNbInters();
+		for (ViewNbIntervention unViewNbIntervention : lesViewNbIntervention) {
+			matrice [i][0] = unViewNbIntervention.getIdTechnicien();
+			matrice [i][1] = unViewNbIntervention.getIdTechnicien();
+			matrice [i][2] = unViewNbIntervention.getNbInters();
 			i++;
 		}
 		return matrice;

@@ -12,8 +12,8 @@ public class Controleur {
 		return Modele.selectWhereAdmin(email, mdp);
 	}
 
-	public static ArrayList<Admin> selectAllAdmins (){
-		return Modele.selectAllAdmins();
+	public static ArrayList<Technicien> selectAllTechniciens (){
+		return Modele.selectAllTechniciens();
 	}
 
 	public static void updateAdmin (Admin unAdmin)
@@ -51,9 +51,9 @@ public class Controleur {
 		Modele.insertIntervention (uneIntervention);
 	}
 
-	public static ArrayList<ViewTechnicien> selectAllViewTechniciens() {
+	public static ArrayList<ViewNbIntervention> ViewNbIntervention() {
 
-		return Modele.selectAllViewTechniciens();
+		return Modele.ViewNbIntervention();
 	}
 
 	public static void createAdmin(Admin newAdmin) {
@@ -61,6 +61,14 @@ public class Controleur {
 		Modele.createAdmin(newAdmin);
 
 	}
+
+	public static void deleteTechnicien(int idTechnicien) {
+		Modele.deleteTechnicien(idTechnicien);
+	}
+
+   public static ArrayList<Technicien> selectAllTechniciens(String filtre) {
+		return Modele.selectAllTechniciens(filtre);
+   }
 }
 
 

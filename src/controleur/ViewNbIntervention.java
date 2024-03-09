@@ -12,15 +12,7 @@ public class ViewNbIntervention {
       return nbInters;
    }
 
-   public void setNbInters(int nbInters) {
-      this.nbInters = nbInters;
-   }
-
    public int getIdTechnicien() {
       return idTechnicien;
-   }
-
-   public void setIdTechnicien(int idTechnicien) {
-      this.idTechnicien = idTechnicien;
    }
 }

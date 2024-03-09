@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import controleur.Controleur;
-import controleur.Materiel;
+import controleur.Technicien;
 import controleur.Tableau;
 
 public class PanelTechniciens extends PanelPrincipal implements ActionListener
@@ -76,8 +76,8 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 		this.add(this.panelForm);
 		this.panelForm.setVisible(true);
 
-		//construction de la Jtable des materiels
-		String entetes [] = {"ID Matériel", "Nom", "Description"};
+		//construction de la Jtable des techniciens
+		String entetes [] = {"ID Technicien", "Nom", "prenom", "Email", "Telephone"};
 		this.unTableau = new Tableau (entetes, this.obtenirDonnees(""));
 		this.tableTechniciens = new JTable(this.unTableau);
 		this.uneScroll = new JScrollPane(this.tableTechniciens);
@@ -132,26 +132,26 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int numLigne = 0;
-				int idMateriel = 0;
+				int idTechnicien = 0;
 				if (e.getClickCount()>=2) {
 					numLigne = tableTechniciens.getSelectedRow();
-					idMateriel= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
-					int reponse = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer ce materiel",
-							"Suppression Matérielle", JOptionPane.YES_NO_OPTION);
+					idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
+					int reponse = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer ce Technicien",
+							"Suppression Technicien", JOptionPane.YES_NO_OPTION);
 					if (reponse == 0) {
 						//suppression dans la BDD
-						Controleur.deleteMateriel(idMateriel);
+						Controleur.deleteTechnicien(idTechnicien);
 						//suppression dans l'affichage de la table
 						unTableau.supprimerLigne(numLigne);
-						lbTechniciens.setText("Nombre de matériels disponibles :"+unTableau.getRowCount());
+						lbTechniciens.setText("Nombre de Techniciens disponibles :"+unTableau.getRowCount());
 					}
 				}
 				else {
 					numLigne = tableTechniciens.getSelectedRow();
-					idMateriel= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
+					idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
 					String nom = tableTechniciens.getValueAt(numLigne, 1).toString();
 					String description = tableTechniciens.getValueAt(numLigne, 2).toString();
-					// String categorie = tableMateriels.getValueAt(numLigne, 4).toString();
+					// String categorie = tableTechniciens.getValueAt(numLigne, 4).toString();
 					//remplissage du formulaire
 					txtNom.setText(nom);
 					//txtDescription.setText(description);
@@ -162,22 +162,22 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			}
 		});
 
-		//Nombre de matériels dans la table :
-		int nbMatriels = this.unTableau.getRowCount();
-		lbTechniciens = new JLabel("Nombre de matériels disponibles : " + nbMatriels);
+		//Nombre de Techniciens dans la table :
+		int nbTechniciens = this.unTableau.getRowCount();
+		lbTechniciens = new JLabel("Nombre de Techniciens disponibles : " + nbTechniciens);
 		lbTechniciens.setBounds(300, 360, 300, 20);
 		this.add(lbTechniciens);
 	}
 	public Object [][] obtenirDonnees (String filtre){
-		ArrayList<Materiel> lesMateriels = Controleur.selectAllMateriels(filtre);
-		Object [][] matrice = new Object[lesMateriels.size()][5];
+		ArrayList<Technicien> lesTechniciens = Controleur.selectAllTechniciens(filtre);
+		Object [][] matrice = new Object[lesTechniciens.size()][5];
 		int i = 0;
-		for (Materiel unMateriel : lesMateriels) {
-			matrice [i][0] = unMateriel.getIdmateriel();
-			matrice [i][1] = unMateriel.getNom();
-			matrice [i][2] = unMateriel.getDescription();
-			// matrice [i][3] = unMateriel.getPrixAchat();
-			// matrice [i][4] = unMateriel.getCategorie();
+		for (Technicien unTechnicien : lesTechniciens) {
+			matrice [i][0] = unTechnicien.getIdTechnicien();
+			matrice [i][1] = unTechnicien.getNom();
+			matrice [i][2] = unTechnicien.getPrenom();
+			matrice [i][3] = unTechnicien.getEmail();
+			matrice [i][4] = unTechnicien.getTel();
 			i++;
 		}
 		return matrice;
@@ -196,6 +196,12 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 		else if (e.getSource() == this.btEnregistrer && this.btEnregistrer.getText().equals("Enregistrer")) {
 			boolean ok = true;
 			String nom = this.txtNom.getText();
+			String prenom = this.txtPrenom.getText();
+			String email = this.txtEmail.getText();
+			String adresse = this.txtAdresse.getText();
+			String codePostal = this.txtCodePostal.getText();
+			String mdp = this.txtMDP.getText();
+			String tel = this.txtTelephone.getText();
 			// String description = this.txtDescription.getText();
 			// String categorie = this.txtCategorie.getSelectedItem().toString();
 			// float prix = 0;
@@ -214,18 +220,18 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			// 	this.txtPrix.setBackground(Color.white);
 			// }
 			if (ok) {
-				//on enregistre le new materiel dans la base
-				Materiel unMateriel = new Materiel(nom, "");
-				Controleur.insertMateriel (unMateriel);
+				//on enregistre le new technicien dans la base
+				Technicien unTechnicien = new Technicien(nom, "", "", "", "", "", "");
+				Controleur.insertTechnicien (unTechnicien);
 
 				//récupération de l'ID donné par mysql
-				unMateriel = Controleur.selectWhereMateriel(nom);
+				unTechnicien = Controleur.selectWhereTechnicien(nom);
 
-				JOptionPane.showMessageDialog(this, "Matériel inséré avec succés dans la BDD");
+				JOptionPane.showMessageDialog(this, "Technicien inséré avec succés dans la BDD");
 				//insertion dans l'affichage graphique
-				Object ligne[]= {unMateriel.getIdmateriel(), nom, ""};
+				Object ligne[]= {unTechnicien.getIdtechnicien(), nom, ""};
 				this.unTableau.ajouterLigne(ligne);
-				lbTechniciens.setText("Nombre de matériels disponibles :"+unTableau.getRowCount());
+				lbTechniciens.setText("Nombre de Techniciens disponibles :"+unTableau.getRowCount());
 
 				this.viderChamps();
 			}
@@ -249,16 +255,16 @@ public class PanelTechniciens extends PanelPrincipal implements ActionListener
 			// 	JOptionPane.showMessageDialog(this, "Erreur format du prix");
 			// }
 			int numLigne = 0 ;
-			int idMateriel = 0;
+			int idTechnicien = 0;
 			numLigne = tableTechniciens.getSelectedRow();
-			idMateriel= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
+			idTechnicien= Integer.parseInt(tableTechniciens.getValueAt(numLigne, 0).toString());
 
-			//Instanciation d'un materiel
-			Materiel unMateriel = new Materiel(idMateriel, nom, "");
+			//Instanciation d'un technicien
+			Technicien unTechnicien = new Technicien(idTechnicien, nom, "");
 			//modification dans la base de données
-			Controleur.updateMateriel(unMateriel);
+			Controleur.updateTechnicien(unTechnicien);
 			//modification dans l'affichage
-			Object ligne []= {idMateriel, nom, ""};
+			Object ligne []= {idTechnicien, nom, ""};
 			this.unTableau.modifierLigne(numLigne, ligne);
 			JOptionPane.showMessageDialog(this, "Modification effectuée");
 			this.viderChamps();
