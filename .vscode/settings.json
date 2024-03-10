@@ -5,5 +5,18 @@
       //    "name": "JavaSE-1.8",
       //    "path": "C:/Users/mloul/OneDrive/Bureau/java-1.8.0-openjdk-1.8.0.392-1.b08.redhat.windows.x86_64/java-1.8.0-openjdk-1.8.0.392-1.b08.redhat.windows.x86_64",
       //  },
-   ]
+   ],
+   "java.project.referencedLibraries": {
+      "include": [
+         "lib/**/*.jar",
+         "src/lib/jcalendar-1.4.jar",
+         "src/lib/jgoodies-common-1.2.0.jar",
+         "src/lib/jgoodies-looks-2.4.1.jar",
+         "src/lib/junit-4.6.jar",
+         "bin/lib/jcalendar-1.4.jar"
+      ],
+      "exclude": [
+         "c:\\MVC_Orange_Java\\mysql-connector-j-8.3.0.jar"
+      ]
+   }
 }

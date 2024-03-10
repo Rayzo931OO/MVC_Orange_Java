@@ -11,14 +11,12 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.text.TabExpander;
 
 import controleur.Controleur;
 import controleur.Materiel;
@@ -181,31 +179,40 @@ public class PanelMateriels extends PanelPrincipal implements ActionListener
 		this.btEnregistrer.setText("Enregistrer");
 	}
 
+	public boolean verifyFields (String nom, String description) {
+		boolean ok = false;
+		Materiel unMateriel = Controleur.selectWhereMateriel(nom);
+		//on vérifie si le nom est vide
+		if (nom.length() > 3) {
+			if (description.length() > 3) {
+				if(unMateriel == null) {
+					ok = true;
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Ce matériel existe déjà");
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Description obligatoire");
+
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Nom obligatoire");
+		}
+		return ok;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==this.btAnnuler) {
 			this.viderChamps();
 		}
 		else if (e.getSource() == this.btEnregistrer && this.btEnregistrer.getText().equals("Enregistrer")) {
-			boolean ok = true;
+			boolean ok = false;
 			String nom = this.txtNom.getText();
 			String description = this.txtDescription.getText();
-			// String categorie = this.txtCategorie.getSelectedItem().toString();
-			// float prix = 0;
-			// try {
-			// 	prix = Float.parseFloat(this.txtPrix.getText());
-			// }
-			// catch (NumberFormatException exp) {
-			// 	JOptionPane.showMessageDialog(this, "Erreur format du prix");
-			// }
-			//on vérifie les données avant insertion dans la base
-			// if (prix <=0) {
-			// 	JOptionPane.showMessageDialog(this, "Erreur prix (Nombre > 0) ");
-			// 	this.txtPrix.setBackground(Color.red);
-			// 	ok = false ;
-			// }else {
-			// 	this.txtPrix.setBackground(Color.white);
-			// }
+
+			ok = verifyFields(nom, description);
 			if (ok) {
 				//on enregistre le new materiel dans la base
 				Materiel unMateriel = new Materiel(nom, description);
@@ -213,8 +220,6 @@ public class PanelMateriels extends PanelPrincipal implements ActionListener
 
 				//récupération de l'ID donné par mysql
 				unMateriel = Controleur.selectWhereMateriel(nom);
-
-
 
 				JOptionPane.showMessageDialog(this, "Matériel inséré avec succés dans la BDD");
 				//insertion dans l'affichage graphique

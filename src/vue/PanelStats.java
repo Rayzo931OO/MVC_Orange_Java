@@ -33,8 +33,8 @@ public class PanelStats extends PanelPrincipal{
 		Object  matrice[][] = new Object[lesViewNbIntervention.size()][3];
 		int i = 0;
 		for (ViewNbIntervention unViewNbIntervention : lesViewNbIntervention) {
-			matrice [i][0] = unViewNbIntervention.getIdTechnicien();
-			matrice [i][1] = unViewNbIntervention.getIdTechnicien();
+			matrice [i][0] = unViewNbIntervention.getNom();
+			matrice [i][1] = unViewNbIntervention.getPrenom();
 			matrice [i][2] = unViewNbIntervention.getNbInters();
 			i++;
 		}

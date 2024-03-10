@@ -149,7 +149,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
 
   public boolean verifyFields(String nom, String prenom, String email, String codePostal, String telephone,
       String adresse, String mdp) {
-        boolean ok = false;
+    boolean ok = false;
     String regexEmail = "^(.+)@(\\S+)$";
     String regexMdp = "^(?=.*[a-zA-Z]).{3,}$";
     String regexCodePostal = "^[0-9]{5}$";
@@ -193,38 +193,40 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
     return ok;
   }
 
-  public void viderChamps () {
-		this.txtNom.setText("");
-		this.txtPrenom.setText("");
-		this.txtEmail.setText("");
-		this.txtCodePostal.setText("");
-		this.txtAdresse.setText("");
-		this.txtTel.setText("");
-		this.txtMdp.setText("");
-		this.btEnregistrer.setText("Enregistrer");
-	}
-	public void viderChamps (String type) {
-		if (type.equals("Modifier")) {
-			this.txtNom.setText("");
-			this.txtPrenom.setText("");
-			this.txtEmail.setText("");
-			this.txtCodePostal.setText("");
-			this.txtAdresse.setText("");
-			this.txtTel.setText("");
-			this.txtMdp.setText("");
-      this.btEnregistrer.setText("Enregistrer");
-		}else if (type.equals("Ajout")) {
-			this.txtNomAjout.setText("");
-			this.txtPrenomAjout.setText("");
-			this.txtEmailAjout.setText("");
-			this.txtCodePostalAjout.setText("");
-			this.txtAdresseAjout.setText("");
-			this.txtTelAjout.setText("");
-			this.txtMdpAjout.setText("");
-      this.btEnregistrerAjout.setText("Enregistrer");
-		}
+  public void viderChamps() {
+    this.txtNom.setText("");
+    this.txtPrenom.setText("");
+    this.txtEmail.setText("");
+    this.txtCodePostal.setText("");
+    this.txtAdresse.setText("");
+    this.txtTel.setText("");
+    this.txtMdp.setText("");
+    this.btEnregistrer.setText("Enregistrer");
+  }
 
-	}
+  public void viderChamps(String type) {
+    if (type.equals("Modifier")) {
+      this.txtNom.setText("");
+      this.txtPrenom.setText("");
+      this.txtEmail.setText("");
+      this.txtCodePostal.setText("");
+      this.txtAdresse.setText("");
+      this.txtTel.setText("");
+      this.txtMdp.setText("");
+      this.btEnregistrer.setText("Enregistrer");
+    } else if (type.equals("Ajout")) {
+      this.txtNomAjout.setText("");
+      this.txtPrenomAjout.setText("");
+      this.txtEmailAjout.setText("");
+      this.txtCodePostalAjout.setText("");
+      this.txtAdresseAjout.setText("");
+      this.txtTelAjout.setText("");
+      this.txtMdpAjout.setText("");
+      this.btEnregistrerAjout.setText("Enregistrer");
+    }
+
+  }
+
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == this.btModifier) {

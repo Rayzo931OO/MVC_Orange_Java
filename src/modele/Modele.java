@@ -3,9 +3,12 @@ package modele;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import controleur.Admin;
+import controleur.Client;
 import controleur.Intervention;
 import controleur.Materiel;
 import controleur.Technicien;
@@ -132,6 +135,7 @@ public class Modele {
 
 		}
 	}
+
 	public static void updateTechnicien(Technicien unTechnicien) {
 		String requete = "update user set nom='" + unTechnicien.getNom()
 				+ "', prenom = '" + unTechnicien.getPrenom()
@@ -150,6 +154,7 @@ public class Modele {
 			System.out.println("Erreur de requete : " + requete);
 		}
 	}
+
 	public static void deleteTechnicien(int idTechnicien) {
 		String requete = "delete from user where id_utilisateur = " + idTechnicien + ";";
 		try {
@@ -162,7 +167,6 @@ public class Modele {
 			System.out.println("Erreur de requete : " + requete);
 		}
 	}
-
 
 	/**
 	 * Récupère tous les techniciens de la base de données.
@@ -260,33 +264,9 @@ public class Modele {
 		return unTechnicien;
 	}
 
-	public static ArrayList<ViewNbIntervention> ViewNbIntervention() {
-		ArrayList<ViewNbIntervention> lesViewNbIntervention = new ArrayList<ViewNbIntervention>();
-		String requete = "select * from  nbinterstechniciens;";
-		try {
-			uneBdd.seConnecter();
-			// création d'un curseur pour exécuter la requete
-			Statement unStat = uneBdd.getMaConnexion().createStatement();
-			// execution de la requete et récuperation d'un resultat
-			ResultSet desRes = unStat.executeQuery(requete);
-			// s'il y a un resultat, on récupere les champs
-			while (desRes.next()) {
-				ViewNbIntervention uneViewNbIntervention = new ViewNbIntervention(
-						desRes.getInt("nbInters"),
-						desRes.getInt("id_technicien"));
-				lesViewNbIntervention.add(uneViewNbIntervention);
-			}
-			unStat.close();
-			uneBdd.seDeConnecter();
-		} catch (SQLException exp) {
-			System.out.println("Erreur de requete : " + requete);
-		}
-		return lesViewNbIntervention;
-	}
-
 	/************************* Gestion des Materiels ******************/
 	public static void insertMateriel(Materiel unMateriel) {
-		String requete = "insert into materiel values (null, '" + unMateriel.getDescription()
+		String requete = "insert into materiel values (null, '" + unMateriel.getNom()
 				+ "','" + unMateriel.getDescription() + "');";
 		try {
 			uneBdd.seConnecter();
@@ -368,6 +348,7 @@ public class Modele {
 			uneBdd.seDeConnecter();
 		} catch (SQLException exp) {
 			System.out.println("Erreur de requete : " + requete);
+			System.out.println(exp.getMessage());
 		}
 		return unMateriel;
 	}
@@ -402,11 +383,14 @@ public class Modele {
 
 	/************************* Gestion des Interventions ******************/
 	public static void insertIntervention(Intervention uneIntervention) {
-		String requete = "insert into intervention values (null, '"
+		String requete = "insert into intervention (description, date_Inter, status, id_technicien, id_client, id_materiel) values ('"
 				+ uneIntervention.getDescription() + "','"
 				+ uneIntervention.getDateinter() + "','"
-				+ uneIntervention.getPrix() + "','"
-				+ uneIntervention.getIdmateriel() + "');";
+				// + uneIntervention.getPrix() + "','"
+				+ uneIntervention.getStatus() + "','"
+				+ uneIntervention.getIdTechnicien() + "','"
+				+ uneIntervention.getIdClient() + "','"
+				+ uneIntervention.getIdMateriel() + "');";
 		try {
 			uneBdd.seConnecter();
 			Statement unStat = uneBdd.getMaConnexion().createStatement();
@@ -419,5 +403,282 @@ public class Modele {
 
 	}
 
+	public static ArrayList<Intervention> selectAllInterventions(String filtre) {
+		ArrayList<Intervention> lesInterventions = new ArrayList<Intervention>();
+		String requete = "";
+		if (filtre.equals("")) {
+			requete = "select * from intervention ;";
+		} else {
+			requete = "select * from intervention where description like '%" + filtre
+					+ "%' or date_inter like '%" + filtre +
+					"%'" +
+					" or status like '%" + filtre + "%'" +
+					// " or prix like '%" + filtre + "%'"+
+					" ; ";
+		}
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			while (desRes.next()) {
+				Intervention uneIntervention = new Intervention(
+						desRes.getInt("id_intervention"),
+						desRes.getString("description"),
+						desRes.getString("date_inter"),
+						// desRes.getFloat("prix"),
+						desRes.getString("status"),
+						desRes.getInt("id_technicien"),
+						desRes.getInt("id_client"),
+						desRes.getInt("id_materiel"));
+				lesInterventions.add(uneIntervention);
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return lesInterventions;
+	}
 
+	public static ArrayList<ViewNbIntervention> ViewNbIntervention() {
+		ArrayList<ViewNbIntervention> lesViewNbIntervention = new ArrayList<ViewNbIntervention>();
+		String requete = "select * from  nbinterstechniciens;";
+		try {
+			uneBdd.seConnecter();
+			// création d'un curseur pour exécuter la requete
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			// execution de la requete et récuperation d'un resultat
+			ResultSet desRes = unStat.executeQuery(requete);
+			// s'il y a un resultat, on récupere les champs
+			while (desRes.next()) {
+				ViewNbIntervention uneViewNbIntervention = new ViewNbIntervention(
+						desRes.getString("nom"),
+						desRes.getString("prenom"),
+						desRes.getInt("nbInterventions"));
+				lesViewNbIntervention.add(uneViewNbIntervention);
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return lesViewNbIntervention;
+	}
+
+	/************************* Gestion des Clients ******************/
+	public static ArrayList<Client> selectAllClient(String filtre) {
+		ArrayList<Client> lesClients = new ArrayList<Client>();
+		String requete = "";
+		if (filtre.equals("")) {
+			requete = "select * from user where role = 'client' ;";
+		} else {
+			requete = "select * from user where role = 'client' and (nom like '%" + filtre
+					+ "%' or prenom like '%" + filtre + "%' or email like '%" + filtre + "%' or telephone like '%" + filtre
+					+ "%');";
+		}
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			while (desRes.next()) {
+				Client unClient = new Client(
+						desRes.getInt("id_utilisateur"),
+						desRes.getString("nom"),
+						desRes.getString("prenom"),
+						desRes.getString("email"),
+						desRes.getString("code_postal"),
+						desRes.getString("adresse"),
+						desRes.getString("telephone"),
+						"");
+				lesClients.add(unClient);
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return lesClients;
+	}
+
+	public static Date convertStringToDate(String dateInter) {
+		Date date = null;
+		try {
+			// The constructor Date(String) is deprecated
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateInter);
+		} catch (Exception exp) {
+			System.out.println("Erreur de conversion de la date");
+		}
+		return date;
+	}
+
+	public static Intervention selectWhereIntervention(int idIntervention) {
+		String requete = "select * from intervention where id_intervention=" + idIntervention;
+		Intervention uneIntervention = null;
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				uneIntervention = new Intervention(
+						desRes.getInt("id_intervention"),
+						desRes.getString("description"),
+						desRes.getString("date_inter"),
+						// desRes.getFloat("prix"),
+						desRes.getString("status"),
+						desRes.getInt("id_technicien"),
+						desRes.getInt("id_client"),
+						desRes.getInt("id_materiel"));
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return uneIntervention;
+	}
+
+	public static Client selectClientById(String idClient) {
+		String requete = "select * from user where id_utilisateur=" + idClient + ";";
+		Client unClient = null;
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				unClient = new Client(
+						desRes.getInt("id_utilisateur"),
+						desRes.getString("nom"),
+						desRes.getString("prenom"),
+						desRes.getString("email"),
+						desRes.getString("code_postal"),
+						desRes.getString("adresse"),
+						desRes.getString("telephone"),
+						"");
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return unClient;
+	}
+
+	public static Technicien selectTechnicienById(String idTechnicien) {
+		String requete = "select * from user where id_utilisateur=" + idTechnicien + ";";
+		Technicien unTechnicien = null;
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				unTechnicien = new Technicien(
+						desRes.getInt("id_utilisateur"),
+						desRes.getString("nom"),
+						desRes.getString("prenom"),
+						desRes.getString("email"),
+						desRes.getString("code_postal"),
+						desRes.getString("adresse"),
+						desRes.getString("telephone"),
+						"");
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return unTechnicien;
+	}
+
+	public static Materiel selectMaterielById(String idMateriel) {
+		String requete = "select * from materiel where id_materiel=" + idMateriel + ";";
+		Materiel unMateriel = null;
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				unMateriel = new Materiel(
+						desRes.getInt("id_materiel"),
+						desRes.getString("nom"),
+						desRes.getString("description"));
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return unMateriel;
+	}
+
+	public static String convertDateToString(Date date) {
+		// dateinter is in this format : "Wed Jun 16 00:00:00 CEST 2021"
+		// make it a sql DATETIME format
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String dateInter = formatter.format(date);
+		return dateInter;
+	}
+
+	public static Intervention selectWhereIntervention(String description, String dateinter, String status,
+			int idTechnicien, int idClient, int idMateriel) {
+		String requete = "select * from intervention where description='" + description
+				+ "' and date_inter ='" + dateinter
+				+ "' and status ='" + status
+				+ "' and id_technicien ='" + idTechnicien
+				+ "' and id_client ='" + idClient
+				+ "' and id_materiel ='" + idMateriel + "';";
+		Intervention uneIntervention = null;
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			ResultSet desRes = unStat.executeQuery(requete);
+			if (desRes.next()) {
+				uneIntervention = new Intervention(
+						desRes.getInt("id_intervention"),
+						desRes.getString("description"),
+						desRes.getString("date_inter"),
+						// desRes.getFloat("prix"),
+						desRes.getString("status"),
+						desRes.getInt("id_technicien"),
+						desRes.getInt("id_client"),
+						desRes.getInt("id_materiel"));
+			}
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+		return uneIntervention;
+	}
+
+	public static void deleteIntervention(int idIntervention) {
+		String requete = "delete from intervention where id_intervention = " + idIntervention + ";";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
+
+	public static void updateIntervention(Intervention uneIntervention) {
+		String requete = "update intervention set description='" + uneIntervention.getDescription()
+				+ "', date_inter = '" + uneIntervention.getDateinter()
+				+ "', status = '" + uneIntervention.getStatus()
+				+ "', id_technicien = '" + uneIntervention.getIdTechnicien()
+				+ "', id_client = '" + uneIntervention.getIdClient()
+				+ "', id_materiel = '" + uneIntervention.getIdMateriel()
+				+ "' where id_intervention = " + uneIntervention.getIdinter() + ";";
+		try {
+			uneBdd.seConnecter();
+			Statement unStat = uneBdd.getMaConnexion().createStatement();
+			unStat.execute(requete);
+			unStat.close();
+			uneBdd.seDeConnecter();
+		} catch (SQLException exp) {
+			System.out.println("Erreur de requete : " + requete);
+		}
+	}
 }

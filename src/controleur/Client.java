@@ -1,12 +1,12 @@
 package controleur;
 
 public class Client {
-   private int idUtilisateur;
+   private int idClient;
    private String nom, prenom, email, mdp, codePostal, adresse, tel, role;
 
-   public Client(int idUtilisateur, String nom, String prenom, String email, String mdp, String codePostal, String adresse, String tel) {
+   public Client(int idClient, String nom, String prenom, String email, String codePostal,String adresse, String tel, String mdp) {
       super();
-      this.idUtilisateur = idUtilisateur;
+      this.idClient = idClient;
       this.nom = nom;
       this.prenom = prenom;
       this.email = email;
@@ -17,9 +17,9 @@ public class Client {
       this.role = "technicien";
    }
 
-   public Client(String nom, String prenom, String email, String mdp, String codePostal, String adresse, String tel) {
+   public Client(String nom, String prenom, String email, String codePostal,String adresse, String tel, String mdp) {
       super();
-      this.idUtilisateur = 0;
+      this.idClient = 0;
       this.nom = nom;
       this.prenom = prenom;
       this.email = email;
@@ -30,12 +30,12 @@ public class Client {
       this.role = "technicien";
    }
 
-   public int getIdUtilisateur() {
-      return idUtilisateur;
+   public int getIdClient() {
+      return idClient;
    }
 
-   public void setIdUtilisateur(int idUtilisateur) {
-      this.idUtilisateur = idUtilisateur;
+   public void setIdClient(int idClient) {
+      this.idClient = idClient;
    }
 
    public String getNom() {

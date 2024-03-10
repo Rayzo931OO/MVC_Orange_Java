@@ -1,6 +1,7 @@
 package controleur;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import modele.Modele;
 
@@ -81,6 +82,51 @@ public class Controleur {
 	public static void createTechnicien(Technicien unTechnicien) {
 		Modele.createTechnicien(unTechnicien);
 	}
+
+	public static ArrayList<Client> selectAllClient (String filtre){
+		return Modele.selectAllClient(filtre);
+	}
+	// selectAllInterventions
+	public static ArrayList<Intervention> selectAllInterventions (String filtre){
+		return Modele.selectAllInterventions(filtre);
+	}
+
+   public static Date convertStringToDate(String dateInter) {
+		return Modele.convertStringToDate(dateInter);
+   }
+
+   public static Intervention selectWhereIntervention(int idIntervention) {
+		return Modele.selectWhereIntervention(idIntervention);
+   }
+
+   public static Client selectClientById(String idClient) {
+		return Modele.selectClientById(idClient);
+   }
+
+   public static Technicien selectTechnicienById(String idTechnicien) {
+		return Modele.selectTechnicienById(idTechnicien);
+   }
+
+	public static Materiel selectMaterielById(String idMateriel) {
+		return Modele.selectMaterielById(idMateriel);
+	}
+
+   public static String convertDateToString(Date date) {
+		return Modele.convertDateToString(date);
+   }
+
+	public static Intervention selectWhereIntervention(String description, String dateinter, String status,
+			int idTechnicien, int idClient, int idMateriel) {
+		return Modele.selectWhereIntervention(description, dateinter, status, idTechnicien, idClient, idMateriel);
+	}
+
+	public static void deleteIntervention(int idIntervention) {
+		Modele.deleteIntervention(idIntervention);
+	}
+
+   public static void updateIntervention(Intervention uneIntervention) {
+		Modele.updateIntervention(uneIntervention);
+   }
 }
 
 

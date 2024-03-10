@@ -47,7 +47,7 @@ CREATE INDEX idx_user_email ON user(email);
 
 CREATE TABLE materiel (
   id_materiel INT PRIMARY KEY AUTO_INCREMENT,
-  nom VARCHAR(50) NOT NULL,
+  nom VARCHAR(50) NOT NULL UNIQUE,
   description VARCHAR(100) NOT NULL
 );
 
@@ -153,7 +153,7 @@ CREATE VIEW client_view AS (
 CREATE VIEW materiel_view AS (
    SELECT * FROM materiel
 );
-CREATE VIEW nbIntersTechniciens as (
+CREATE VIEW nbinterstechniciens as (
 	select u.nom, u.prenom, count(i.id_intervention) as nbInterventions
 	from user u, intervention i
 	where u.id_utilisateur = i.id_technicien
@@ -175,7 +175,7 @@ INSERT INTO materiel (nom, description) VALUES
 ('Souris sans fil', 'Souris ergonomique sans fil');
 
 INSERT INTO intervention (date_inter, status, description, id_technicien,id_materiel, id_client) VALUES
-('2023-01-01 08:00:00', 'En cours', "Installation d'antivirus",null,1,4);
+('2023-01-01 08:00:00', 'En cours', "Installation d'antivirus",2,1,4);
 -- INSERT INTO jonction_materiel_categorie (id_materiel, id_categorie) VALUES
 -- (1, 1);
 
