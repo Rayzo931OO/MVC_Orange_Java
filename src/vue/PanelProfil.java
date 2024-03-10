@@ -138,12 +138,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
     this.btAnnulerAjout.addActionListener(this);
 
     // remplir les données
-    this.txtNom.setText(unAdmin.getNom());
-    this.txtPrenom.setText(unAdmin.getPrenom());
-    this.txtEmail.setText(unAdmin.getEmail());
-    this.txtAdresse.setText(unAdmin.getAdresse());
-    this.txtCodePostal.setText(unAdmin.getCodePostal());
-    this.txtTel.setText(unAdmin.getTel());
+    remplirChamps(unAdmin);
 
   }
 
@@ -175,7 +170,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Email pas au bon format");
               }
             } else {
-              JOptionPane.showMessageDialog(this, "Téléphone pas au bon format : 10 chiffres");
+              JOptionPane.showMessageDialog(this, "Téléphone pas au bon format : 10 chiffres et sans espace");
             }
           } else {
             JOptionPane.showMessageDialog(this, "Code postal pas au bon format : 5 chiffres");
@@ -224,7 +219,15 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
       this.txtMdpAjout.setText("");
       this.btEnregistrerAjout.setText("Enregistrer");
     }
+  }
 
+  public void remplirChamps(Admin unAdmin) {
+    this.txtNom.setText(unAdmin.getNom());
+    this.txtPrenom.setText(unAdmin.getPrenom());
+    this.txtEmail.setText(unAdmin.getEmail());
+    this.txtAdresse.setText(unAdmin.getAdresse());
+    this.txtCodePostal.setText(unAdmin.getCodePostal());
+    this.txtTel.setText(unAdmin.getTel());
   }
 
   @Override
@@ -232,6 +235,8 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
     if (e.getSource() == this.btModifier) {
       this.panelForm.setVisible(true);
       this.panelFormAjout.setVisible(false);
+      // remplir les données
+      remplirChamps(unAdmin);
     } else if (e.getSource() == this.btAjouter) {
       this.panelFormAjout.setVisible(true);
       this.panelForm.setVisible(false);
