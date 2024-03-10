@@ -214,6 +214,8 @@ public class PanelMateriels extends PanelPrincipal implements ActionListener
 				//récupération de l'ID donné par mysql
 				unMateriel = Controleur.selectWhereMateriel(nom);
 
+
+
 				JOptionPane.showMessageDialog(this, "Matériel inséré avec succés dans la BDD");
 				//insertion dans l'affichage graphique
 				Object ligne[]= {unMateriel.getIdmateriel(), nom, description};

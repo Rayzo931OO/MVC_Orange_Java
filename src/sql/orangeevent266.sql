@@ -153,7 +153,7 @@ CREATE VIEW client_view AS (
 CREATE VIEW materiel_view AS (
    SELECT * FROM materiel
 );
-CREATE VIEW nbIntersAdmins as (
+CREATE VIEW nbIntersTechniciens as (
 	select u.nom, u.prenom, count(i.id_intervention) as nbInterventions
 	from user u, intervention i
 	where u.id_utilisateur = i.id_technicien
