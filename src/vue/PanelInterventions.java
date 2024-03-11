@@ -31,7 +31,12 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 	private int idIntervention;
 	private JTextArea txtDescription = new JTextArea();
 	// private JTextField txtPrix = new JTextField();
-	private JComboBox<String> txtStatus = new JComboBox<String>();
+
+	// Champ .setBackground(color.red) ou .Color(color.red)
+
+	// ICI POUR STATUS
+	// private JComboBox<String> txtStatus = new JComboBox<String>();
+	private JTextField txtStatus = new JTextField();
 	private JComboBox<String> txtIdTechnicien = new JComboBox<String>();
 	private JComboBox<String> txtIdClient = new JComboBox<String>();
 	private JComboBox<String> txtIdMateriel = new JComboBox<String>();
@@ -171,7 +176,12 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 					// convert idTechnicien to string
 					txtDescription.setText(description);
 					txtDateInter.setDate(Controleur.convertStringToDate(dateInter));
-					txtStatus.setSelectedItem(status);
+
+					// ICI POUR STATUS
+					// txtStatus.setSelectedItem(status);
+					txtStatus.setText(status);
+
+
 					txtIdTechnicien.setSelectedItem(technicien);
 					txtIdClient.setSelectedItem(client);
 					txtIdMateriel.setSelectedItem(materiel);
@@ -202,10 +212,11 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 
 	public void remplirCBX() {
 		// make a list of status to add to the combobox one "en cours" and one "terminé"
-		String[] lesStatus = { "En cours", "Terminé", "Annulé" };
-		for (String unStatus : lesStatus) {
-			this.txtStatus.addItem(unStatus);
-		}
+		
+		// String[] lesStatus = { "En cours", "Terminé", "Annulé" };
+		// for (String unStatus : lesStatus) {
+		// 	this.txtStatus.addItem(unStatus);
+		// }
 
 		ArrayList<Client> lesClients = Controleur.selectAllClient("");
 
@@ -256,7 +267,9 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 			tab = chaine.split("-");
 			int idClient = Integer.parseInt(tab[0]);
 
-			String status = this.txtStatus.getSelectedItem().toString();
+			// ICI POUR STATUS
+			// String status = this.txtStatus.getSelectedItem().toString();
+			String status = this.txtStatus.getText();
 
 			// instancier une intervention
 			Intervention uneIntervention = new Intervention(description, dateinter,
@@ -299,7 +312,9 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 			tab = chaine.split("-");
 			int idClient = Integer.parseInt(tab[0]);
 
-			String status = this.txtStatus.getSelectedItem().toString();
+			// ICI POUR STATUS
+			// String status = this.txtStatus.getSelectedItem().toString();
+			String status = this.txtStatus.getText();
 			int numLigne = 0 ;
 			numLigne = tableInterventions.getSelectedRow();
 			// instancier une intervention with idIntervention
