@@ -138,14 +138,14 @@ public class PanelInterventions extends PanelPrincipal implements ActionListener
 				if (e.getClickCount() >= 2) {
 					numLigne = tableInterventions.getSelectedRow();
 					idIntervention = Integer.parseInt(tableInterventions.getValueAt(numLigne, 0).toString());
-					int reponse = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer ce Technicien",
-							"Suppression Technicien", JOptionPane.YES_NO_OPTION);
+					int reponse = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer cette Intervention",
+							"Suppression Intervention", JOptionPane.YES_NO_OPTION);
 					if (reponse == 0) {
 						// suppression dans la BDD
 						Controleur.deleteIntervention(idIntervention);
 						// suppression dans l'affichage de la table
 						unTableau.supprimerLigne(numLigne);
-						lbInterventions.setText("Nombre de Techniciens disponibles :" + unTableau.getRowCount());
+						lbInterventions.setText("Nombre de Intervention disponibles :" + unTableau.getRowCount());
 					}
 				} else {
 					numLigne = tableInterventions.getSelectedRow();
